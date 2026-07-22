@@ -90,7 +90,7 @@ const mutationDB = [
 
     { id: "pallid_ino", symbol: "ino^{pd}/ino", name: "PallidIno", cat: 4, type: "SLR", isCompound: true, locus: "ino", locusGroup: "Allelic Compounds of ino-locus", alleles: ["pallid", "sl_ino"], sp: { roseicollis: "original" } },
     { id: "pale_ino", symbol: "ino^{pe}/ino", name: "PaleIno", cat: 4, type: "SLR", isCompound: true, locus: "ino", locusGroup: "Allelic Compounds of ino-locus", alleles: ["pale", "sl_ino"], sp: { roseicollis: "original" } },
-    { id: "pallid_pale", symbol: "ino^{pd}/ino^{pe}", name: "PallidPale", cat: 4, type: "SLR", isCompound: true, locus: "ino", locusGroup: "Allelic Compounds of ino-locus", alleles: ["pallid", "pale"], sp: { roseicollis: "original", white_eye_ring: "original" } },
+    { id: "pale_pallid", symbol: "ino^{pe}/ino^{pd}", name: "PalePallid", cat: 4, type: "SLR", isCompound: true, locus: "ino", locusGroup: "Allelic Compounds of ino-locus", alleles: ["pale", "pallid"], sp: { roseicollis: "original", white_eye_ring: "original" } },
 
     { id: "cinnamon", symbol: "cin", name: "cinnamon", cat: 4, type: "SLR", locus: "cinnamon", locusGroup: "Independent Loci", alleles: ["cinnamon"], sp: { roseicollis: "original", white_eye_ring: "original" } },
     { id: "sl_dom_greywing", symbol: "Grw", name: "SL dominant greywing", cat: 4, type: "SLID", locus: "sl_dom_greywing", locusGroup: "default", alleles: ["sl_dom_greywing"], sp: { white_eye_ring: "original" }, warningNote: "Note: The crossover (linkage) rate between SL dominant greywing and other sex-linked mutations (opaline, pallid, pale, cinnamon) has not yet been established by researchers. Until this data becomes available, the calculator assumes these mutations are inherited completely independently of one another." },
@@ -110,7 +110,7 @@ const zNamingOrder = ["opaline", "cinnamon", "ino", ...allZloci.filter(l => !["o
 
 const categoriesOrder = ["Basic color mutation", "Dark factor", "Dominant factor influencing the appearance of basic psittacofulvin mutations", "Eumelanin mutations", "Mutation influencing both eumelanin and psittacofulvin expression", "Mutation influencing pigment expression in the mask"];
 const moiLabels = { "AR": "Autosomal Recessive", "AD": "Autosomal Dominant", "AID": "Autosomal Incomplete Dominant", "SLR": "Sex-Linked Recessive", "SLID": "Sex-Linked Incomplete Dominant" };
-const lociGroups = { 'bl': ['aqua', 'blue1', 'blue2', 'rose_blue', 'turquoise', 'aqua_blue1', 'aqua_blue2', 'blue1_blue2', 'aqua_rose_blue', 'turquoise_rose_blue', 'aqua_turquoise', 'sapphire', 'sapphire_blue1', 'sapphire_blue2', 'aqua_sapphire'], 'a': ['nsl_ino', 'dec', 'pastel', 'bronze_fallow', 'pastel_ino', 'dec_ino', 'pastel_dec', 'bronze_fallow_ino', 'bronze_fallow_dec', 'bronze_fallow_pastel'], 'dil': ['dilute'], 'ino': ['sl_ino', 'pallid', 'pale', 'pallid_ino', 'pale_ino', 'pallid_pale'] };
+const lociGroups = { 'bl': ['aqua', 'blue1', 'blue2', 'rose_blue', 'turquoise', 'aqua_blue1', 'aqua_blue2', 'blue1_blue2', 'aqua_rose_blue', 'turquoise_rose_blue', 'aqua_turquoise', 'sapphire', 'sapphire_blue1', 'sapphire_blue2', 'aqua_sapphire'], 'a': ['nsl_ino', 'dec', 'pastel', 'bronze_fallow', 'pastel_ino', 'dec_ino', 'pastel_dec', 'bronze_fallow_ino', 'bronze_fallow_dec', 'bronze_fallow_pastel'], 'dil': ['dilute'], 'ino': ['sl_ino', 'pallid', 'pale', 'pallid_ino', 'pale_ino', 'pale_pallid'] };
 
 // ==========================================
 // INTEGRATED UPDATE UI & SEARCH ENGINE CORE
@@ -184,7 +184,7 @@ function toggleGeneticSymbols() {
 }
 
 function resetCalculator() {
-    document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+    document.querySelectorAll('.mutation-item input[type="checkbox"]').forEach(cb => {
         cb.checked = false;
         let itemDiv = cb.closest('.mutation-item');
         itemDiv.classList.remove('active');
@@ -194,7 +194,11 @@ function resetCalculator() {
     clearValidationReminder();
     handleConstraints('sire-categories', 'male');
     handleConstraints('dam-categories', 'female');
-    
+
+    ['sire-auto-select', 'dam-auto-select'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.checked = true;
+    });
     resetSearchEngine();
     renderLivePreview();
 }
@@ -1239,7 +1243,7 @@ const customDictionary = [
     
     { keys: ["dec"], res: () => [{id:"dec", val:2}] },
     { keys: ["split pied"], res: () => [{id:"rec_pied", val:1}] }, 
-    { keys: ["pied"], res: () => [{id:"dom_pied", val:2}] }, 
+    { keys: ["pied"], res: (sp, isSplit) => isSplit ? [{id:"rec_pied", val:1}] : [{id:"dom_pied", val:2}] },
     { keys: ["faded"], res: () => [{id:"faded", val:2}] },
     { keys: ["dominant yellow"], res: () => [{id:"dom_reduced", val:1}] }, 
     { keys: ["greywing"], res: () => [{id:"sl_dom_greywing", val:1}] }, 
@@ -1310,8 +1314,8 @@ function parseTraitsStr(str, species, isSplit) {
                     if (mod === 't2' || mod === 'type2') explicitT = 'T2';
                 });
 
-                let traitsToApply = entry.res(species);
-                let traitsToSuggest = entry.suggest ? entry.suggest(species) : [];
+                let traitsToApply = entry.res(species, isSplit);
+                let traitsToSuggest = entry.suggest ? entry.suggest(species, isSplit) : [];
                 
                 const processTrait = (t, targetArray) => {
                     let dbMut = mutationDB.find(m => m.id === t.id);
