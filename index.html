@@ -73,7 +73,6 @@
         <div class="bird-column" id="sire-column">
             <h2>1.0 Sire (Male) <span class="sex-badge sex-badge-sire" title="Male lovebirds are the homogametic sex (ZZ)">&#9794; ZZ</span></h2>
             
-            <!-- Sire Search Container -->
             <div class="search-container" id="sire-search-container" style="display: none;">
                 <div class="search-header">
                     <label for="sire-search-input"><strong>Quick Add Mutation</strong></label>
@@ -81,7 +80,13 @@
                         <input type="checkbox" id="sire-auto-select" checked> Auto Select
                     </label>
                 </div>
-                <input type="text" id="sire-search-input" class="search-input" placeholder="" autocomplete="off">
+                <div class="search-input-wrapper">
+                    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" id="sire-search-input" class="search-input" placeholder="" autocomplete="off">
+                </div>
                 <div id="sire-linkage-controls" class="linkage-controls"></div>
                 <div id="sire-suggestions-container" class="suggestions-container"></div>
                 <div id="sire-search-warning" class="search-warning" style="display: none;"></div>
@@ -94,7 +99,6 @@
         <div class="bird-column" id="dam-column">
             <h2>0.1 Dam (Female) <span class="sex-badge sex-badge-dam" title="Female lovebirds are the heterogametic sex (ZW) &mdash; they carry the sex-linked traits they pass to sons">&#9792; ZW</span></h2>
             
-            <!-- Dam Search Container -->
             <div class="search-container" id="dam-search-container" style="display: none;">
                 <div class="search-header">
                     <label for="dam-search-input"><strong>Quick Add Mutation</strong></label>
@@ -102,7 +106,13 @@
                         <input type="checkbox" id="dam-auto-select" checked> Auto Select
                     </label>
                 </div>
-                <input type="text" id="dam-search-input" class="search-input" placeholder="" autocomplete="off">
+                <div class="search-input-wrapper">
+                    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" id="dam-search-input" class="search-input" placeholder="" autocomplete="off">
+                </div>
                 <div id="dam-linkage-controls" class="linkage-controls"></div>
                 <div id="dam-suggestions-container" class="suggestions-container"></div>
                 <div id="dam-search-warning" class="search-warning" style="display: none;"></div>
