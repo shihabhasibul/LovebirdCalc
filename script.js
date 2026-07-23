@@ -1584,9 +1584,34 @@ function processSearchQuery(query, species, sex) {
         }
     }
     
-    let leftoverRaw = (parsedVis.leftover + " " + parsedSplit.leftover).trim();
-    let ignoreWords = ["and", "with", "the", "a", "sf", "df", "z1", "z2", "t1", "t2", "type", "type1", "type2"];
-    let remainingWords = leftoverRaw.split(' ').filter(w => w && !ignoreWords.includes(w));
+    // ==========================================
+    // 4. Clean Unrecognized Words (Species Name Ignorer)
+    // ==========================================
+    let leftoverRaw = (parsedVis.leftover + " " + parsedSplit.leftover).trim().toLowerCase();
+    
+    let ignorePhrases = [
+        "lovebird", "love bird", "agapornis",
+        "and", "with", "the", "a", "sf", "df", "z1", "z2", "t1", "t2", "type", "type1", "type2"
+    ];
+    
+    if (species === "white_eye_ring") {
+        ignorePhrases.push("fischeri", "fischer", "fisher", "fisheri", "black-masked", "black masked", "black-mask", "black mask", "yellow-collared", "yellow collared", "yellow collar", "yellow-collar", "personatus", "personata", "blackmask", "blackmasked", "yellowcollared", "yellowcollar", "lilianae", "nyasa", "black-cheeked", "black cheeked", "black cheek", "black-cheek", "nigrigenis", "blackcheeked", "blackcheek");
+    } else if (species === "roseicollis") {
+        ignorePhrases.push("roseicollis", "rosy-faced", "rosy faced", "rosyfaced", "rosy face", "rosy-face", "rosy", "peach-faced", "peach faced", "peach face", "peach-face", "peachface", "rosyface", "peachfaced");
+    } else if (species === "taranta") {
+        ignorePhrases.push("black-winged", "black winged", "black wing", "black-wing", "abyssinian", "abyssinia", "blackwinged", "blackwing");
+    }
+
+    // Sort phrases by length (longest first) so things like "peach faced" are erased before "peach"
+    ignorePhrases.sort((a, b) => b.length - a.length);
+
+    ignorePhrases.forEach(phrase => {
+        let escapedPhrase = phrase.replace(/[-]/g, '\\-');
+        let regex = new RegExp("\\b" + escapedPhrase + "\\b", "g"); 
+        leftoverRaw = leftoverRaw.replace(regex, " ");
+    });
+
+    let remainingWords = leftoverRaw.split(/[\s]+/).filter(w => w);
     let leftover = remainingWords.join(' ').trim();
 
     let warningText = "";
