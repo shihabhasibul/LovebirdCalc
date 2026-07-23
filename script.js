@@ -109,7 +109,7 @@ const zMapOrder = ["opaline", "ino", "cinnamon", ...allZloci.filter(l => !["opal
 const zNamingOrder = ["opaline", "cinnamon", "ino", ...allZloci.filter(l => !["opaline", "cinnamon", "ino"].includes(l))];
 
 const categoriesOrder = ["Basic color mutation", "Dark factor", "Dominant factor influencing the appearance of basic psittacofulvin mutations", "Eumelanin mutations", "Mutation influencing both eumelanin and psittacofulvin expression", "Mutation influencing pigment expression in the mask"];
-const moiLabels = { "AR": "Autosomal Recessive", "AD": "Autosomal Dominant", "AID": "Autosomal Incomplete Dominant", "SLR": "Sex-Linked Recessive", "SLID": "Sex-Linked Incomplete Dominant" };
+const moiLabels = { "AR": "Autosomal Recessive", "AD": "Autosomal Dominant", "AID": "Autosomal Incomplete Dominant", "SLR": "Sex-Linked Recessive", "SLID": "Sex-Linked Incomplete Dominant", "SLD": "Sex-Linked Dominant" };
 const lociGroups = { 'bl': ['aqua', 'blue1', 'blue2', 'rose_blue', 'turquoise', 'aqua_blue1', 'aqua_blue2', 'blue1_blue2', 'aqua_rose_blue', 'turquoise_rose_blue', 'aqua_turquoise', 'sapphire', 'sapphire_blue1', 'sapphire_blue2', 'aqua_sapphire'], 'a': ['nsl_ino', 'dec', 'pastel', 'bronze_fallow', 'pastel_ino', 'dec_ino', 'pastel_dec', 'bronze_fallow_ino', 'bronze_fallow_dec', 'bronze_fallow_pastel'], 'dil': ['dilute'], 'ino': ['sl_ino', 'pallid', 'pale', 'pallid_ino', 'pale_ino', 'pale_pallid'] };
 
 // ==========================================
@@ -239,7 +239,7 @@ function toggleMutation(checkbox, containerId, sex) {
     if (checkbox.checked) {
         itemDiv.classList.add('active');
         const mut = mutationDB.find(m => m.id === checkbox.dataset.id);
-        const defaultVal = ["AD", "AID", "SLID"].includes(mut.type) ? "1" : "2";
+        const defaultVal = ["AD", "AID", "SLID", "SLD"].includes(mut.type) ? "1" : "2";
         const radio = itemDiv.querySelector(`input[type="radio"][value="${defaultVal}"]`) || itemDiv.querySelector('input[type="radio"]');
         if (radio) radio.checked = true;
     } else {
@@ -309,7 +309,7 @@ function renderBird(containerId, species, sex) {
             });
 
             const sortedMOI = Object.keys(groupedByMOI).sort((a, b) =>
-                ["AR", "AID", "AD", "SLR", "SLID"].indexOf(a) - ["AR", "AID", "AD", "SLR", "SLID"].indexOf(b)
+                ["AR", "AID", "AD", "SLR", "SLID", "SLD"].indexOf(a) - ["AR", "AID", "AD", "SLR", "SLID", "SLD"].indexOf(b)
             );
 
             sortedMOI.forEach(type => {
@@ -350,11 +350,32 @@ function renderBird(containerId, species, sex) {
                         const inputName = `${sex}_${mut.id}`;
                         const nestedClass = isNested ? "locus-nested" : "";
 
-                        let geneButtons = mut.isCompound ? `<label><input type="radio" name="${inputName}" value="2" onchange="handleConstraints('${containerId}', '${sex}')"> <span>Visual</span></label>` :
-                            mut.id === "dark_factor" ? `<label><input type="radio" name="${inputName}" value="1" onchange="handleConstraints('${containerId}', '${sex}')"> <span>D</span></label><label><input type="radio" name="${inputName}" value="2" onchange="handleConstraints('${containerId}', '${sex}')"> <span>DD</span></label><div class="t-assign"><div class="linkage-row"><span class="linkage-label">Phase:</span><label><input type="radio" name="${inputName}_t" value="T1" checked> T1</label><label><input type="radio" name="${inputName}_t" value="T2"> T2</label></div><div class="linkage-hint">Note on Dark Factor Linkage: <strong>T1</strong> = Dark factor linked to green/wildtype chromosome (Type 1). <strong>T2</strong> = Dark factor linked to blue mutant chromosome (Type 2). This affects breeding outcomes when paired with blue series birds.</div></div>` :
-                            mut.type === "AR" ? `<label><input type="radio" name="${inputName}" value="1" onchange="handleConstraints('${containerId}', '${sex}')"> <span>Split</span></label><label><input type="radio" name="${inputName}" value="2" onchange="handleConstraints('${containerId}', '${sex}')"> <span>Visual</span></label>` :
-                            mut.type.includes("SL") ? (sex === "male" ? `<label><input type="radio" name="${inputName}" value="1" onchange="handleConstraints('${containerId}', '${sex}')"> <span>Split</span></label><label><input type="radio" name="${inputName}" value="2" onchange="handleConstraints('${containerId}', '${sex}')"> <span>Visual</span></label>` + (mut.type === "SLR" ? `<div class="z-assign"><div class="linkage-row"><span class="linkage-label">Assign to:</span><label><input type="radio" name="${inputName}_z" value="z1" checked> Z1</label><label><input type="radio" name="${inputName}_z" value="z2"> Z2</label></div><div class="linkage-hint">Z Chromosome Note: In males, each Z chromosome can carry different mutations. Placing two SL recessive mutations on the same Z (e.g., <strong>both on Z1</strong>) is required to create crossover phenotypes like <strong>opaline-SL ino</strong>, <strong>opaline-cinnamon</strong>, etc.</div></div>` : `<div class="z-assign"><div class="linkage-row"><span class="linkage-label">Assign to:</span><label><input type="radio" name="${inputName}_z" value="z1" checked> Z1</label><label><input type="radio" name="${inputName}_z" value="z2"> Z2</label></div></div>`) : `<label><input type="radio" name="${inputName}" value="1" onchange="handleConstraints('${containerId}', '${sex}')"> <span>Visual</span></label>`) :
-                            `<label><input type="radio" name="${inputName}" value="1" onchange="handleConstraints('${containerId}', '${sex}')"> <span>SF</span></label><label><input type="radio" name="${inputName}" value="2" onchange="handleConstraints('${containerId}', '${sex}')"> <span>DF</span></label>`;
+                        let geneButtons = "";
+                        
+                        if (mut.isCompound) {
+                            geneButtons = `<label><input type="radio" name="${inputName}" value="2" onchange="handleConstraints('${containerId}', '${sex}')"> <span>Visual</span></label>`;
+                        } else if (mut.id === "dark_factor") {
+                            geneButtons = `<label><input type="radio" name="${inputName}" value="1" onchange="handleConstraints('${containerId}', '${sex}')"> <span>D</span></label><label><input type="radio" name="${inputName}" value="2" onchange="handleConstraints('${containerId}', '${sex}')"> <span>DD</span></label><div class="t-assign"><div class="linkage-row"><span class="linkage-label">Phase:</span><label><input type="radio" name="${inputName}_t" value="T1" checked> T1</label><label><input type="radio" name="${inputName}_t" value="T2"> T2</label></div><div class="linkage-hint">Note on Dark Factor Linkage: <strong>T1</strong> = Dark factor linked to green/wildtype chromosome (Type 1). <strong>T2</strong> = Dark factor linked to blue mutant chromosome (Type 2). This affects breeding outcomes when paired with blue series birds.</div></div>`;
+                        } else if (mut.type === "AR") {
+                            geneButtons = `<label><input type="radio" name="${inputName}" value="1" onchange="handleConstraints('${containerId}', '${sex}')"> <span>Split</span></label><label><input type="radio" name="${inputName}" value="2" onchange="handleConstraints('${containerId}', '${sex}')"> <span>Visual</span></label>`;
+                        } else if (mut.type.includes("SL")) {
+                            if (sex === "male") {
+                                let lbl1 = mut.type === "SLR" ? "Split" : "SF";
+                                let lbl2 = mut.type === "SLR" ? "Visual" : "DF";
+                                geneButtons = `<label><input type="radio" name="${inputName}" value="1" onchange="handleConstraints('${containerId}', '${sex}')"> <span>${lbl1}</span></label><label><input type="radio" name="${inputName}" value="2" onchange="handleConstraints('${containerId}', '${sex}')"> <span>${lbl2}</span></label>`;
+                                
+                                if (mut.type === "SLR") {
+                                    geneButtons += `<div class="z-assign"><div class="linkage-row"><span class="linkage-label">Assign to:</span><label><input type="radio" name="${inputName}_z" value="z1" checked> Z1</label><label><input type="radio" name="${inputName}_z" value="z2"> Z2</label></div><div class="linkage-hint">Z Chromosome Note: In males, each Z chromosome can carry different mutations. Placing two SL recessive mutations on the same Z (e.g., <strong>both on Z1</strong>) is required to create crossover phenotypes like <strong>opaline-SL ino</strong>, <strong>opaline-cinnamon</strong>, etc.</div></div>`;
+                                } else {
+                                    geneButtons += `<div class="z-assign"><div class="linkage-row"><span class="linkage-label">Assign to:</span><label><input type="radio" name="${inputName}_z" value="z1" checked> Z1</label><label><input type="radio" name="${inputName}_z" value="z2"> Z2</label></div></div>`;
+                                }
+                            } else {
+                                let lbl = (mut.type === "SLID" || mut.type === "SLD") ? "SF" : "Visual";
+                                geneButtons = `<label><input type="radio" name="${inputName}" value="1" onchange="handleConstraints('${containerId}', '${sex}')"> <span>${lbl}</span></label>`;
+                            }
+                        } else {
+                            geneButtons = `<label><input type="radio" name="${inputName}" value="1" onchange="handleConstraints('${containerId}', '${sex}')"> <span>SF</span></label><label><input type="radio" name="${inputName}" value="2" onchange="handleConstraints('${containerId}', '${sex}')"> <span>DF</span></label>`;
+                        }
 
                         groupHTML += `
                             <div class="mutation-item ${nestedClass}">
@@ -662,7 +683,11 @@ function translatePhenotype(z1, z2, auto, sex, indPhase, hasSL, offspringMode, b
     if (sex === "female") {
         z1.forEach(id => {
             let m = mutationDB.find(x => x.id === id);
-            if (m) { visualTraits.push({ ...m, zygosity: "VISUAL" }); expressedIDs.push(m.id); }
+            if (m) { 
+                let zygosity = (m.type === "SLID" || m.type === "SLD") ? "SF" : "VISUAL";
+                visualTraits.push({ ...m, zygosity: zygosity }); 
+                expressedIDs.push(m.id); 
+            }
         });
     } else {
         let filteredZ1 = [...z1];
@@ -684,9 +709,9 @@ function translatePhenotype(z1, z2, auto, sex, indPhase, hasSL, offspringMode, b
             let m = mutationDB.find(x => x.id === id);
             if (!m) return;
             if (filteredZ1.includes(id) && filteredZ2.includes(id)) {
-                visualTraits.push({ ...m, zygosity: m.type.includes("ID") || m.type.includes("AD") ? "DF" : "VISUAL" });
+                visualTraits.push({ ...m, zygosity: (m.type.includes("ID") || m.type.includes("AD") || m.type.includes("SLD")) ? "DF" : "VISUAL" });
                 expressedIDs.push(m.id);
-            } else if (m.type.includes("ID") || m.type.includes("AD")) {
+            } else if (m.type.includes("ID") || m.type.includes("AD") || m.type.includes("SLD")) {
                 visualTraits.push({ ...m, zygosity: "SF" });
                 expressedIDs.push(m.id);
             } else {
@@ -707,8 +732,8 @@ function translatePhenotype(z1, z2, auto, sex, indPhase, hasSL, offspringMode, b
         return pName;
     }
 
-    let zLinkedMods = modifiers.filter(m => m.type === "SLR" || m.type === "SLID");
-    let otherMods = modifiers.filter(m => !(m.type === "SLR" || m.type === "SLID"));
+    let zLinkedMods = modifiers.filter(m => m.type === "SLR" || m.type === "SLID" || m.type === "SLD");
+    let otherMods = modifiers.filter(m => !(m.type === "SLR" || m.type === "SLID" || m.type === "SLD"));
     let outputUnits = otherMods.map(m => ({ rank: nameRank(m.cat), text: formatModWord(m) }));
 
     if (zLinkedMods.length > 0) {
@@ -1160,9 +1185,44 @@ document.addEventListener("DOMContentLoaded", updateMobileBarVisibility);
 // QUICK ADD MUTATION (SMART SEARCH ENGINE)
 // ==========================================
 const compoundReplacements = {
+    // --- Squashing spaces inside single alleles ---
+    "blue 1": "blue1",
+    "blue 2": "blue2",
+    "b 1 b 2": "b1b2",
+    "b 1": "b1",
+    "b 2": "b2",
+
+    // --- Unspaced Shorthand Expansions ---
+    "aquab1": "aquablue1",
+    "aquab2": "aquablue2",
+    "sapphireb1": "sapphireblue1",
+    "sapphireb2": "sapphireblue2",
+    "aqua b1": "aquablue1",
+    "aqua b2": "aquablue2",
+
+    // --- Standard Compound Replacements ---
     "blue1 blue2": "b1b2",
+    "b1 b2": "b1b2",
+    "aqua blue1": "aquablue1",
+    "aqua blue2": "aquablue2",
+    "aqua turquoise": "aquaturquoise",
     "pallid ino": "pallidino",
-    "pastel ino": "pastelino"
+    "pastel ino": "pastelino",
+    "dec ino": "decino",
+    "pastel dec": "pasteldec",
+    "bronze fallow ino": "bronzefallowino",
+    "bronze fallow dec": "bronzefallowdec",
+    "bronze fallow pastel": "bronzefallowpastel",
+    "pale pallid": "palepallid",
+    "pale ino": "paleino",
+    
+    // --- Sapphire Variations ---
+    "sapphire blue1": "sapphireblue1",
+    "sapphire blue2": "sapphireblue2",
+    "aqua sapphire": "aquasapphire",
+    "sapphire aqua": "aquasapphire",
+    "sapphire b1": "sapphireblue1",
+    "sapphire b2": "sapphireblue2"
 };
 
 function levenshteinDistance(a, b) {
@@ -1219,11 +1279,11 @@ const customDictionary = [
     { keys: ["sapphire"], res: () => [{id:"sapphire", val:2}] },
 
     // Species-specific Slate/Slaty/Grey/Jade/Edged
-    { keys: ["slate", "slaty"], sp: "white_eye_ring", res: () => [{id:"slaty", val:1}] }, // Slaty is AD (default SF)
-    { keys: ["slate", "grey"], sp: "roseicollis", res: () => [{id:"grey_factor", val:1}] }, // Grey factor is AID (default SF)
-    { keys: ["jade", "dm jade"], sp: "roseicollis", res: () => [{id:"dm_jade", val:2}] }, // DM Jade is AR (default Visual)
-    { keys: ["edged", "edge"], sp: "white_eye_ring", res: () => [{id:"dom_edged", val:1}] }, // Dom Edged is AID (default SF)
-    { keys: ["edged", "edge"], sp: "roseicollis", res: () => [{id:"marbled", val:2}] }, // Marbled is AR (default Visual)
+    { keys: ["slate", "slaty"], sp: "white_eye_ring", res: () => [{id:"slaty", val:1}] }, 
+    { keys: ["slate", "grey"], sp: "roseicollis", res: () => [{id:"grey_factor", val:1}] }, 
+    { keys: ["jade", "dm jade"], sp: "roseicollis", res: () => [{id:"dm_jade", val:2}] }, 
+    { keys: ["edged", "edge"], sp: "white_eye_ring", res: () => [{id:"dom_edged", val:1}] }, 
+    { keys: ["edged", "edge"], sp: "roseicollis", res: () => [{id:"marbled", val:2}] }, 
 
     { keys: ["lutino black eye", "yellow"], res: () => [{id:"dec", val:2}] },
     { keys: ["albino black eye", "black eye albino", "white"], sp: "white_eye_ring", res: () => [{id:"dec", val:2}, {id:"blue1", val:2}] },
@@ -1247,7 +1307,7 @@ const customDictionary = [
     { keys: ["faded"], res: () => [{id:"faded", val:2}] },
     { keys: ["dominant yellow"], res: () => [{id:"dom_reduced", val:1}] }, 
     { keys: ["greywing"], res: () => [{id:"sl_dom_greywing", val:1}] }, 
-    { keys: ["australian yellow face", "yellow face", "yf"], res: () => [{id:"orange_face", val:2}] },
+    { keys: ["australian yellow face", "yellow face", "yellowface", "yf"], res: () => [{id:"orange_face", val:2}] },
     { keys: ["australian cinnamon", "isabel"], res: () => [{id:"pallid", val:2}] },
     { keys: ["american cinnamon", "cinnamon"], res: () => [{id:"cinnamon", val:2}] },
     { keys: ["lacewing"], sp: "roseicollis", res: () => [{id:"cinnamon", val:2}, {id:"sl_ino", val:2}] }, 
@@ -1320,10 +1380,12 @@ function parseTraitsStr(str, species, isSplit) {
                 const processTrait = (t, targetArray) => {
                     let dbMut = mutationDB.find(m => m.id === t.id);
                     if (!dbMut) return;
+                    
+                    if (!dbMut.sp[species]) return;
 
                     let finalVal = isSplit ? 1 : (t.val || 2); 
                     if (!isSplit && dbMut.id !== "dark_factor") {
-                        if (dbMut.type === "AID" || dbMut.type === "SLID") finalVal = 1;
+                        if (dbMut.type === "AID" || dbMut.type === "SLID" || dbMut.type === "SLD") finalVal = 1;
                         if (dbMut.type === "AD") finalVal = 2;
                     }
                     if (explicitZyg !== null && !isSplit && dbMut.id !== "dark_factor") finalVal = explicitZyg;
@@ -1352,9 +1414,8 @@ function parseTraitsStr(str, species, isSplit) {
 }
 
 function processSearchQuery(query, species, sex) {
-    if (!query) return { visuals: [], splits: [], suggested: [], leftover: "" };
+    if (!query) return { visuals: [], splits: [], suggested: [], leftover: "", warningText: "" };
 
-    // Array Flattening for multiple splits
     let delimiter = null;
     if (query.includes('/')) delimiter = '/';
     else if (query.toLowerCase().includes('split')) delimiter = 'split';
@@ -1364,54 +1425,161 @@ function processSearchQuery(query, species, sex) {
     if (delimiter) {
         let parts = query.split(new RegExp(delimiter, 'i'));
         visualStr = parts[0];
-        splitStr = parts.slice(1).join(' '); // Safe merge of all splits
+        splitStr = parts.slice(1).join(' '); 
     }
 
     let parsedVis = parseTraitsStr(visualStr, species, false);
     let parsedSplit = parseTraitsStr(splitStr, species, true);
     
-    let visuals = parsedVis.foundTraits;
-    let splits = parsedSplit.foundTraits;
+    let rawVisuals = parsedVis.foundTraits;
+    let rawSplits = parsedSplit.foundTraits;
     let suggested = [...parsedVis.suggestedTraits, ...parsedSplit.suggestedTraits];
 
-    let finalSplits = [];
-    splits.forEach(splitTrait => {
-        let visMatchIndex = visuals.findIndex(v => v.locus === splitTrait.locus);
-        
-        if (visMatchIndex !== -1 && splitTrait.locus !== "default" && splitTrait.locus !== "Independent Loci") {
-            let visMatch = visuals[visMatchIndex];
-            
-            // Identical Allele Check
-            if (visMatch.id === splitTrait.id) {
-                visuals[visMatchIndex].val = 2; // Upgrade to DF/Visual
-                visuals[visMatchIndex].isSplit = false;
-            } else {
-                let compound = mutationDB.find(m => m.isCompound && m.alleles.includes(splitTrait.id) && m.alleles.includes(visMatch.id));
-                if (compound) {
-                    visuals.splice(visMatchIndex, 1);
-                    visuals.push({ id: compound.id, val: 2, isSplit: false, locus: compound.locus, type: compound.type });
-                } else {
-                    finalSplits.push(splitTrait); // Fallback if no compound
-                }
-            }
+    // ==========================================
+    // 1. Intra-Array Visual Fusion Loop (Locked Compounds)
+    // ==========================================
+    let mergedVisuals = [];
+    rawVisuals.forEach(t => {
+        if (t.locus === "default" || t.locus === "Independent Loci") {
+            mergedVisuals.push(t);
         } else {
-            finalSplits.push(splitTrait);
+            let existingIdx = mergedVisuals.findIndex(v => v.locus === t.locus);
+            if (existingIdx !== -1) {
+                let t1 = mergedVisuals[existingIdx];
+                let m1 = mutationDB.find(m => m.id === t1.id);
+                let m2 = mutationDB.find(m => m.id === t.id);
+
+                if (t1.id === t.id) {
+                    t1.val = 2; // identical alleles upgrade to DF/Visual
+                } else if (m1 && m2 && !m1.isCompound && !m2.isCompound) {
+                    // Only attempt fusion if NEITHER trait is already a locked compound
+                    let allele1 = m1.alleles[0];
+                    let allele2 = m2.alleles[0];
+                    let compound = mutationDB.find(m => m.isCompound && m.alleles.includes(allele1) && m.alleles.includes(allele2));
+                    if (compound) {
+                        t1.id = compound.id;
+                        t1.val = 2;
+                        t1.type = compound.type;
+                    } else {
+                        mergedVisuals.push(t); // No compound exists, push overflow
+                    }
+                } else {
+                    mergedVisuals.push(t); // Already full, push overflow to trigger warning
+                }
+            } else {
+                mergedVisuals.push(t);
+            }
         }
     });
 
-    // Violet "Assumed Blue" Injection Rule
-    let allCombinedTraits = [...visuals, ...finalSplits];
-    let hasViolet = allCombinedTraits.some(t => t.id === "violet");
-    
+    // ==========================================
+    // 2. Intra-Array Split-Split Fusion Loop (Locked Compounds)
+    // ==========================================
+    let mergedSplits = [];
+    rawSplits.forEach(t => {
+        if (t.locus === "default" || t.locus === "Independent Loci") {
+            mergedSplits.push(t);
+        } else {
+            let existingIdx = mergedSplits.findIndex(s => s.locus === t.locus);
+            if (existingIdx !== -1) {
+                let t1 = mergedSplits[existingIdx];
+                let m1 = mutationDB.find(m => m.id === t1.id);
+                let m2 = mutationDB.find(m => m.id === t.id);
+
+                if (t1.id === t.id) {
+                    t1.val = 2;
+                    t1.isSplit = false;
+                    mergedVisuals.push(t1); // Upgrade to visual array
+                    mergedSplits.splice(existingIdx, 1);
+                } else if (m1 && m2 && !m1.isCompound && !m2.isCompound) {
+                    let allele1 = m1.alleles[0];
+                    let allele2 = m2.alleles[0];
+                    let compound = mutationDB.find(m => m.isCompound && m.alleles.includes(allele1) && m.alleles.includes(allele2));
+                    if (compound) {
+                        t1.id = compound.id;
+                        t1.val = 2;
+                        t1.isSplit = false;
+                        t1.type = compound.type;
+                        mergedVisuals.push(t1); // Upgrade to visual array
+                        mergedSplits.splice(existingIdx, 1);
+                    } else {
+                        mergedSplits.push(t);
+                    }
+                } else {
+                    mergedSplits.push(t);
+                }
+            } else {
+                mergedSplits.push(t);
+            }
+        }
+    });
+
+    // ==========================================
+    // 3. Cross-Array Fusion (Locked Compounds)
+    // ==========================================
+    let finalRawSplits = [];
+    mergedSplits.forEach(s => {
+        let vIndex = mergedVisuals.findIndex(v => v.locus === s.locus && v.locus !== "default" && v.locus !== "Independent Loci");
+        if (vIndex !== -1) {
+            let v = mergedVisuals[vIndex];
+            let mv = mutationDB.find(m => m.id === v.id);
+            let ms = mutationDB.find(m => m.id === s.id);
+
+            if (v.id === s.id) {
+                v.val = 2;
+                v.isSplit = false;
+            } else if (mv && ms && !mv.isCompound && !ms.isCompound) {
+                let vAllele = mv.alleles[0];
+                let sAllele = ms.alleles[0];
+                let compound = mutationDB.find(m => m.isCompound && m.alleles.includes(vAllele) && m.alleles.includes(sAllele));
+                if (compound) {
+                    v.id = compound.id;
+                    v.val = 2;
+                    v.isSplit = false;
+                    v.type = compound.type;
+                } else {
+                    finalRawSplits.push(s);
+                }
+            } else {
+                finalRawSplits.push(s);
+            }
+        } else {
+            finalRawSplits.push(s);
+        }
+    });
+
+    let finalVisuals = [];
+    let finalSplits = [];
+    let rejectedNames = [];
+    let locusCapacity = {};
+
+    let allCombined = [...mergedVisuals, ...finalRawSplits];
+    allCombined.forEach(t => {
+        let dbMut = mutationDB.find(m => m.id === t.id);
+        if (!dbMut) return;
+
+        let capacityKey = t.locus;
+        if (capacityKey !== "default" && capacityKey !== "Independent Loci" && locusCapacity[capacityKey]) {
+            rejectedNames.push(dbMut.name);
+        } else {
+            if (capacityKey !== "default" && capacityKey !== "Independent Loci") {
+                locusCapacity[capacityKey] = true;
+            }
+            if (t.isSplit) finalSplits.push(t);
+            else finalVisuals.push(t);
+        }
+    });
+
+    let hasViolet = finalVisuals.concat(finalSplits).some(t => t.id === "violet");
     if (hasViolet) {
         let baseColors = ["green", "blue2", "aqua", "aqua_blue1", "aqua_blue2", "blue1_blue2", "sapphire", "sapphire_blue1", "sapphire_blue2", "aqua_sapphire", "turquoise", "rose_blue"];
-        let hasBase = allCombinedTraits.some(t => baseColors.includes(t.id));
+        let hasBase = finalVisuals.concat(finalSplits).some(t => baseColors.includes(t.id));
         
-        if (!hasBase && !allCombinedTraits.some(t => t.id === "blue1")) {
+        if (!hasBase && !finalVisuals.concat(finalSplits).some(t => t.id === "blue1")) {
             if (species === "white_eye_ring") {
-                visuals.push({id: "blue1", val: 2, isSplit: false, locus: "bl", type: "AR"});
+                finalVisuals.push({id: "blue1", val: 2, isSplit: false, locus: "bl", type: "AR"});
             } else if (species === "roseicollis") {
-                visuals.push({id: "rose_blue", val: 2, isSplit: false, locus: "bl", type: "AR"});
+                finalVisuals.push({id: "rose_blue", val: 2, isSplit: false, locus: "bl", type: "AR"});
             }
         }
     }
@@ -1419,9 +1587,17 @@ function processSearchQuery(query, species, sex) {
     let leftoverRaw = (parsedVis.leftover + " " + parsedSplit.leftover).trim();
     let ignoreWords = ["and", "with", "the", "a", "sf", "df", "z1", "z2", "t1", "t2", "type", "type1", "type2"];
     let remainingWords = leftoverRaw.split(' ').filter(w => w && !ignoreWords.includes(w));
-    let leftover = remainingWords.join(' ');
+    let leftover = remainingWords.join(' ').trim();
 
-    return { visuals: visuals, splits: finalSplits, suggested: suggested, leftover: leftover };
+    let warningText = "";
+    if (rejectedNames.length > 0) {
+        warningText += `Notice: '${rejectedNames.join(", ")}' was ignored because the maximum capacity (2 alleles) for this locus is already full. `;
+    }
+    if (leftover.length > 0) {
+        warningText += `Unrecognized term detected: '${leftover}'. Please check your spelling.`;
+    }
+
+    return { visuals: finalVisuals, splits: finalSplits, suggested: suggested, leftover: leftover, warningText: warningText.trim() };
 }
 
 function applyTraitToUI(trait, containerId, sex) {
@@ -1455,7 +1631,6 @@ function renderLinkageUI(visuals, splits, containerId, sex) {
     let allTraits = [...visuals, ...splits];
     let html = '';
 
-    // Dark factor linkage only spawns if Blue is explicitly Split/SF
     let hasDF = allTraits.some(t => t.id === "dark_factor" && (t.val === 1 || t.isSplit));
     let blueTrait = allTraits.find(t => t.locus === "bl" && t.id !== "green");
     
@@ -1472,7 +1647,6 @@ function renderLinkageUI(visuals, splits, containerId, sex) {
         </div>`;
     }
 
-    // SL Linkage only spawns if trait is explicitly Split/SF
     let slTraits = allTraits.filter(t => t.type.includes("SL") && (t.val === 1 || t.isSplit));
     slTraits.forEach(trait => {
         let activeZ = trait.z || "z1";
@@ -1506,23 +1680,22 @@ function buildSuggestionButton(t, containerId, sex, autoSelectMode, isAlternativ
     let btn = document.createElement('button');
     btn.className = 'suggestion-btn';
     
-    // Check real-time DOM status
     let cb = document.getElementById(containerId).querySelector(`input[data-id="${t.id}"]`);
     let isCurrentlyApplied = cb && cb.checked;
     
     let labelPrefix = isAlternative ? "Alt: " : "";
     let zygosityLabel = "";
     
-    // Zygosity Display Logic
     if (dbMut.id === "dark_factor") {
         zygosityLabel = t.val === 1 ? "D" : "DD";
-    } else if (dbMut.type === "AD" || dbMut.type === "AID" || dbMut.type === "SLID") {
+    } else if (dbMut.type.includes("SL") && sex === "female") {
+        zygosityLabel = (dbMut.type === "SLID" || dbMut.type === "SLD") ? "SF" : "Visual";
+    } else if (dbMut.type === "AD" || dbMut.type === "AID" || dbMut.type === "SLID" || dbMut.type === "SLD") {
         zygosityLabel = (t.val === 1 || t.isSplit) ? "SF" : "DF";
     } else {
         zygosityLabel = t.isSplit ? "Split" : "Visual";
     }
     
-    // If auto select is on, render as read-only confirmed state
     if (autoSelectMode) {
         btn.classList.add('added');
         btn.classList.add('read-only-mode');
@@ -1534,7 +1707,6 @@ function buildSuggestionButton(t, containerId, sex, autoSelectMode, isAlternativ
     btn.textContent = `${isCurrentlyApplied ? '✓' : '+'} ${labelPrefix}${dbMut.name} (${zygosityLabel})`;
     
     btn.onclick = () => {
-        // Live query check on click execution
         let cbLive = document.getElementById(containerId).querySelector(`input[data-id="${t.id}"]`);
         let liveApplied = cbLive && cbLive.checked;
 
@@ -1578,8 +1750,8 @@ function handleSearchInput(sex) {
     let parsed = processSearchQuery(query, species, sex);
     let allParsedTraits = [...parsed.visuals, ...parsed.splits];
 
-    if (parsed.leftover.length > 0) {
-        warningEl.textContent = `Unrecognized term detected: '${parsed.leftover}'. Please check your spelling.`;
+    if (parsed.warningText) {
+        warningEl.textContent = parsed.warningText;
         warningEl.style.display = 'block';
     } else {
         warningEl.style.display = 'none';
@@ -1601,7 +1773,6 @@ function handleSearchInput(sex) {
         searchAppliedState[sex] = allParsedTraits.map(t => t.id);
         allParsedTraits.forEach(t => applyTraitToUI(t, containerId, sex));
         
-        // Render read-only suggestions
         allParsedTraits.forEach(t => {
             let btn = buildSuggestionButton(t, containerId, sex, true);
             if (btn) suggestionsEl.appendChild(btn);
