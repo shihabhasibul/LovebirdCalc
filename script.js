@@ -858,7 +858,6 @@ function renderLivePreview() {
         return;
     }
 
-    // Completely empty check for placeholder
     const isSireEmpty = data.sireName.toLowerCase() === "green" && data.sirePheno.symbol === "+/+";
     const isDamEmpty = data.damName.toLowerCase() === "green" && data.damPheno.symbol === "+/+";
 
@@ -1185,22 +1184,17 @@ document.addEventListener("DOMContentLoaded", updateMobileBarVisibility);
 // QUICK ADD MUTATION (SMART SEARCH ENGINE)
 // ==========================================
 const compoundReplacements = {
-    // --- Squashing spaces inside single alleles ---
     "blue 1": "blue1",
     "blue 2": "blue2",
     "b 1 b 2": "b1b2",
     "b 1": "b1",
     "b 2": "b2",
-
-    // --- Unspaced Shorthand Expansions ---
     "aquab1": "aquablue1",
     "aquab2": "aquablue2",
     "sapphireb1": "sapphireblue1",
     "sapphireb2": "sapphireblue2",
     "aqua b1": "aquablue1",
     "aqua b2": "aquablue2",
-
-    // --- Standard Compound Replacements ---
     "blue1 blue2": "b1b2",
     "b1 b2": "b1b2",
     "aqua blue1": "aquablue1",
@@ -1215,8 +1209,6 @@ const compoundReplacements = {
     "bronze fallow pastel": "bronzefallowpastel",
     "pale pallid": "palepallid",
     "pale ino": "paleino",
-    
-    // --- Sapphire Variations ---
     "sapphire blue1": "sapphireblue1",
     "sapphire blue2": "sapphireblue2",
     "aqua sapphire": "aquasapphire",
@@ -1248,24 +1240,19 @@ function levenshteinDistance(a, b) {
 function isFuzzyMatch(input, target) {
     if (input === target) return true;
     if (input.length < 4) return false; 
-    
-    // Strict number rule: prevent numbers from being fuzzy-matched into different numbers
     let inputNum = input.match(/\d+/);
     let targetNum = target.match(/\d+/);
     if (inputNum || targetNum) {
         if ((inputNum ? inputNum[0] : null) !== (targetNum ? targetNum[0] : null)) return false;
     }
-
     const distance = levenshteinDistance(input, target);
     const maxErrors = target.length <= 6 ? 1 : 2;
     return distance <= maxErrors;
 }
 
 const customDictionary = [
-    // Dark Factors / Olive
     { keys: ["dd", "double dark factor", "double dark", "olive", "df dark", "df dark factor"], res: () => [{id:"dark_factor", val:2}] },
     { keys: ["d", "dark factor", "dark", "sf dark", "sf dark factor"], res: () => [{id:"dark_factor", val:1}] },
-
     { keys: ["mauve"], res: (sp) => [{id:"dark_factor", val:2}, {id: sp==="roseicollis"?"rose_blue":"blue1", val:2}] },
     { keys: ["cobalt"], res: (sp) => [{id:"dark_factor", val:1}, {id: sp==="roseicollis"?"rose_blue":"blue1", val:2}] },
     { keys: ["aqua homo", "aqua homozygote", "aqua homozygotic"], res: () => [{id:"aqua", val:2}] },
@@ -1277,14 +1264,11 @@ const customDictionary = [
     { keys: ["aqua blue"], sp: "white_eye_ring", res: () => [{id:"aqua_blue1", val:2}] },
     { keys: ["sapphire blue", "orange fronted"], res: () => [{id:"sapphire_blue1", val:2}] },
     { keys: ["sapphire"], res: () => [{id:"sapphire", val:2}] },
-
-    // Species-specific Slate/Slaty/Grey/Jade/Edged
     { keys: ["slate", "slaty"], sp: "white_eye_ring", res: () => [{id:"slaty", val:1}] }, 
     { keys: ["slate", "grey"], sp: "roseicollis", res: () => [{id:"grey_factor", val:1}] }, 
     { keys: ["jade", "dm jade"], sp: "roseicollis", res: () => [{id:"dm_jade", val:2}] }, 
     { keys: ["edged", "edge"], sp: "white_eye_ring", res: () => [{id:"dom_edged", val:1}] }, 
     { keys: ["edged", "edge"], sp: "roseicollis", res: () => [{id:"marbled", val:2}] }, 
-
     { keys: ["lutino black eye", "yellow"], res: () => [{id:"dec", val:2}] },
     { keys: ["albino black eye", "black eye albino", "white"], sp: "white_eye_ring", res: () => [{id:"dec", val:2}, {id:"blue1", val:2}] },
     { keys: ["cremino black eye", "black eye cremino"], sp: "white_eye_ring", res: () => [{id:"dec", val:2}, {id:"blue1_blue2", val:2}] },
@@ -1292,15 +1276,12 @@ const customDictionary = [
     { keys: ["lutino red eye", "red eye lutino"], sp: "white_eye_ring", res: () => [{id:"nsl_ino", val:2}] },
     { keys: ["cremino red eye", "red eye cremino", "creamino red eye", "red eye creamino"], sp: "white_eye_ring", res: () => [{id:"nsl_ino", val:2}, {id:"blue1_blue2", val:2}] },
     { keys: ["albino blue2"], sp: "white_eye_ring", res: () => [{id:"nsl_ino", val:2}, {id:"blue2", val:2}] },
-    
-    // Contextual Ino Routing
     { keys: ["lutino", "ino"], sp: "roseicollis", res: () => [{id:"sl_ino", val:2}] },
     { keys: ["albino"], sp: "roseicollis", res: () => [{id:"sl_ino", val:2}, {id:"rose_blue", val:2}] },
     { keys: ["cremino", "creamino"], sp: "roseicollis", res: () => [{id:"sl_ino", val:2}, {id:"turquoise", val:2}], suggest: () => [{id:"sl_ino", val:2}, {id:"aqua", val:2}] },
     { keys: ["lutino", "ino"], sp: "white_eye_ring", res: () => [{id:"nsl_ino", val:2}] },
     { keys: ["albino"], sp: "white_eye_ring", res: () => [{id:"nsl_ino", val:2}, {id:"blue1", val:2}] },
     { keys: ["cremino", "creamino"], sp: "white_eye_ring", res: () => [{id:"nsl_ino", val:2}, {id:"blue1_blue2", val:2}] },
-    
     { keys: ["dec"], res: () => [{id:"dec", val:2}] },
     { keys: ["split pied"], res: () => [{id:"rec_pied", val:1}] }, 
     { keys: ["pied"], res: (sp, isSplit) => isSplit ? [{id:"rec_pied", val:1}] : [{id:"dom_pied", val:2}] },
@@ -1314,8 +1295,6 @@ const customDictionary = [
     { keys: ["lacewing"], sp: "white_eye_ring", res: () => [{id:"nsl_ino", val:2}, {id:"cinnamon", val:2}] },
     { keys: ["pallidino"], res: () => [{id:"pallid_ino", val:2}] },
     { keys: ["pastelino"], res: () => [{id:"pastel_ino", val:2}] },
-
-    // Phantom Wildtype
     { keys: ["green", "wildtype"], res: () => [] } 
 ];
 
@@ -1338,6 +1317,7 @@ function buildDynamicDictionary(species) {
 
 function parseTraitsStr(str, species, isSplit) {
     let text = str.toLowerCase().replace(/\s+/g, ' ').trim();
+    // Pre-process compound text so spaces don't break them
     for (const [spaced, fused] of Object.entries(compoundReplacements)) {
         text = text.replace(new RegExp(spaced, 'g'), fused);
     }
@@ -1347,71 +1327,126 @@ function parseTraitsStr(str, species, isSplit) {
     let allEntries = buildDynamicDictionary(species);
     let words = text.split(' ');
 
-    allEntries.forEach(entry => {
-        let keyWords = entry.key.split(' ');
+    // NEW LOGIC: Left-to-Right Chronological Parsing
+    let i = 0;
+    while (i < words.length) {
         let matchFound = false;
+        
+        // allEntries is still sorted longest-to-shortest, so it correctly 
+        // prioritizes "double dark" over "dark" at this exact word position
+        for (let entry of allEntries) {
+            let keyWords = entry.key.split(' ');
+            
+            // Check if there are enough words left in the array to match this key
+            if (i + keyWords.length <= words.length) {
+                let isMatch = true;
+                for (let j = 0; j < keyWords.length; j++) {
+                    if (!isFuzzyMatch(words[i+j], keyWords[j])) {
+                        isMatch = false;
+                        break;
+                    }
+                }
+                
+                if (isMatch) {
+                    // Look for modifiers right before or right after the matched term
+                    let explicitZyg = null, explicitZ = null, explicitT = null;
+                    let modBefore = i > 0 ? words[i-1] : null;
+                    let modAfter = i + keyWords.length < words.length ? words[i + keyWords.length] : null;
 
-        for (let i = 0; i <= words.length - keyWords.length; i++) {
-            let isMatch = true;
-            for (let j = 0; j < keyWords.length; j++) {
-                if (!isFuzzyMatch(words[i+j], keyWords[j])) {
-                    isMatch = false;
-                    break;
+                    [modBefore, modAfter].forEach(mod => {
+                        if (!mod) return;
+                        if (mod === 'sf') explicitZyg = 1;
+                        if (mod === 'df') explicitZyg = 2;
+                        if (mod === 'z1' || mod === 'z2') explicitZ = mod;
+                        if (mod === 't1' || mod === 'type1') explicitT = 'T1';
+                        if (mod === 't2' || mod === 'type2') explicitT = 'T2';
+                    });
+
+                    let traitsToApply = entry.res(species, isSplit);
+                    let traitsToSuggest = entry.suggest ? entry.suggest(species, isSplit) : [];
+                    
+                    const processTrait = (t, targetArray) => {
+                        let dbMut = mutationDB.find(m => m.id === t.id);
+                        if (!dbMut) return;
+                        if (!dbMut.sp[species]) return;
+
+                        let finalVal = isSplit ? 1 : (t.val || 2); 
+                        if (!isSplit && dbMut.id !== "dark_factor") {
+                            if (dbMut.type === "AID" || dbMut.type === "SLID" || dbMut.type === "SLD") finalVal = 1;
+                            if (dbMut.type === "AD") finalVal = 2;
+                        }
+                        if (explicitZyg !== null && !isSplit && dbMut.id !== "dark_factor") finalVal = explicitZyg;
+
+                        let traitObj = { id: t.id, val: finalVal, isSplit: isSplit, locus: dbMut.locus, type: dbMut.type };
+                        let needsLinkage = isSplit || finalVal === 1; 
+                        
+                        if (dbMut.type.includes("SL") && needsLinkage) traitObj.z = explicitZ || "z1";
+                        if (dbMut.id === "dark_factor" && needsLinkage) traitObj.t = explicitT || "T1";
+                        
+                        targetArray.push(traitObj);
+                    };
+
+                    traitsToApply.forEach(t => processTrait(t, foundTraits));
+                    traitsToSuggest.forEach(t => processTrait(t, suggestedTraits));
+
+                    // Remove the matched words from the array and stop checking dictionary
+                    words.splice(i, keyWords.length);
+                    matchFound = true;
+                    break; 
                 }
             }
-            
-            if (isMatch) {
-                let explicitZyg = null, explicitZ = null, explicitT = null;
-                let modBefore = i > 0 ? words[i-1] : null;
-                let modAfter = i + keyWords.length < words.length ? words[i + keyWords.length] : null;
-
-                [modBefore, modAfter].forEach(mod => {
-                    if (!mod) return;
-                    if (mod === 'sf') explicitZyg = 1;
-                    if (mod === 'df') explicitZyg = 2;
-                    if (mod === 'z1' || mod === 'z2') explicitZ = mod;
-                    if (mod === 't1' || mod === 'type1') explicitT = 'T1';
-                    if (mod === 't2' || mod === 'type2') explicitT = 'T2';
-                });
-
-                let traitsToApply = entry.res(species, isSplit);
-                let traitsToSuggest = entry.suggest ? entry.suggest(species, isSplit) : [];
-                
-                const processTrait = (t, targetArray) => {
-                    let dbMut = mutationDB.find(m => m.id === t.id);
-                    if (!dbMut) return;
-                    
-                    if (!dbMut.sp[species]) return;
-
-                    let finalVal = isSplit ? 1 : (t.val || 2); 
-                    if (!isSplit && dbMut.id !== "dark_factor") {
-                        if (dbMut.type === "AID" || dbMut.type === "SLID" || dbMut.type === "SLD") finalVal = 1;
-                        if (dbMut.type === "AD") finalVal = 2;
-                    }
-                    if (explicitZyg !== null && !isSplit && dbMut.id !== "dark_factor") finalVal = explicitZyg;
-
-                    let traitObj = { id: t.id, val: finalVal, isSplit: isSplit, locus: dbMut.locus, type: dbMut.type };
-                    let needsLinkage = isSplit || finalVal === 1; 
-                    
-                    if (dbMut.type.includes("SL") && needsLinkage) traitObj.z = explicitZ || "z1";
-                    if (dbMut.id === "dark_factor" && needsLinkage) traitObj.t = explicitT || "T1";
-                    
-                    targetArray.push(traitObj);
-                };
-
-                traitsToApply.forEach(t => processTrait(t, foundTraits));
-                traitsToSuggest.forEach(t => processTrait(t, suggestedTraits));
-
-                words.splice(i, keyWords.length);
-                text = words.join(' ');
-                matchFound = true;
-                break; 
-            }
         }
-    });
+        
+        // Only move to the next word if we didn't find a match at this position
+        if (!matchFound) {
+            i++;
+        }
+    }
 
-    return { foundTraits, suggestedTraits, leftover: text };
+    return { foundTraits, suggestedTraits, leftover: words.join(' ') };
 }
+
+window.applySmartFix = function(sex, compoundId) {
+    const prefix = sex === 'male' ? 'sire' : 'dam';
+    const inputEl = document.getElementById(`${prefix}-search-input`);
+    const species = document.getElementById("species").value;
+    
+    // Parse current input quietly
+    let parsed = processSearchQuery(inputEl.value, species, sex);
+    
+    let newQueryParts = [];
+    let splitParts = [];
+    let compoundMut = mutationDB.find(x => x.id === compoundId);
+    
+    // Harvest valid visuals
+    parsed.visuals.forEach(t => {
+        let m = mutationDB.find(x => x.id === t.id);
+        // Exclude alleles belonging to the fixed compound
+        if (compoundMut && compoundMut.alleles.includes(t.id)) return;
+        if (m) newQueryParts.push(m.result_label || m.name);
+    });
+    
+    // Inject the new compound visual
+    if (compoundMut) {
+        newQueryParts.push(compoundMut.result_label || compoundMut.name);
+    }
+    
+    // Harvest valid splits
+    parsed.splits.forEach(t => {
+        let m = mutationDB.find(x => x.id === t.id);
+        if (compoundMut && compoundMut.alleles.includes(t.id)) return;
+        if (m) splitParts.push(m.result_label || m.name);
+    });
+    
+    // Reconstruct the perfect string
+    let finalString = newQueryParts.join(" ");
+    if (splitParts.length > 0) {
+        finalString += " split " + splitParts.join(" split ");
+    }
+    
+    inputEl.value = finalString.trim();
+    handleSearchInput(sex); // Refresh the engine with the fixed text
+};
 
 function processSearchQuery(query, species, sex) {
     if (!query) return { visuals: [], splits: [], suggested: [], leftover: "", warningText: "" };
@@ -1423,9 +1458,13 @@ function processSearchQuery(query, species, sex) {
     let visualStr = query;
     let splitStr = "";
     if (delimiter) {
-        let parts = query.split(new RegExp(delimiter, 'i'));
+        // Use exact word boundaries for 'split' so we don't cut words in half
+        let regex = delimiter === '/' ? /\// : /\bsplit\b/i;
+        let parts = query.split(regex);
         visualStr = parts[0];
-        splitStr = parts.slice(1).join(' '); 
+        // FIX: Re-join with the delimiter explicitly preserved so compoundReplacements 
+        // doesn't accidentally fuse "blue1" and "blue2" together textually.
+        splitStr = parts.slice(1).join(` ${delimiter} `); 
     }
 
     let parsedVis = parseTraitsStr(visualStr, species, false);
@@ -1435,9 +1474,6 @@ function processSearchQuery(query, species, sex) {
     let rawSplits = parsedSplit.foundTraits;
     let suggested = [...parsedVis.suggestedTraits, ...parsedSplit.suggestedTraits];
 
-    // ==========================================
-    // 1. Intra-Array Visual Fusion Loop (Locked Compounds)
-    // ==========================================
     let mergedVisuals = [];
     rawVisuals.forEach(t => {
         if (t.locus === "default" || t.locus === "Independent Loci") {
@@ -1450,9 +1486,8 @@ function processSearchQuery(query, species, sex) {
                 let m2 = mutationDB.find(m => m.id === t.id);
 
                 if (t1.id === t.id) {
-                    t1.val = 2; // identical alleles upgrade to DF/Visual
+                    t1.val = 2; 
                 } else if (m1 && m2 && !m1.isCompound && !m2.isCompound) {
-                    // Only attempt fusion if NEITHER trait is already a locked compound
                     let allele1 = m1.alleles[0];
                     let allele2 = m2.alleles[0];
                     let compound = mutationDB.find(m => m.isCompound && m.alleles.includes(allele1) && m.alleles.includes(allele2));
@@ -1461,10 +1496,10 @@ function processSearchQuery(query, species, sex) {
                         t1.val = 2;
                         t1.type = compound.type;
                     } else {
-                        mergedVisuals.push(t); // No compound exists, push overflow
+                        mergedVisuals.push(t);
                     }
                 } else {
-                    mergedVisuals.push(t); // Already full, push overflow to trigger warning
+                    mergedVisuals.push(t); 
                 }
             } else {
                 mergedVisuals.push(t);
@@ -1472,10 +1507,12 @@ function processSearchQuery(query, species, sex) {
         }
     });
 
-    // ==========================================
-    // 2. Intra-Array Split-Split Fusion Loop (Locked Compounds)
-    // ==========================================
     let mergedSplits = [];
+    let splitWarnings = [];
+
+    // ==========================================
+    // Intra-Array Split-Split Fusion Loop 
+    // ==========================================
     rawSplits.forEach(t => {
         if (t.locus === "default" || t.locus === "Independent Loci") {
             mergedSplits.push(t);
@@ -1487,26 +1524,21 @@ function processSearchQuery(query, species, sex) {
                 let m2 = mutationDB.find(m => m.id === t.id);
 
                 if (t1.id === t.id) {
-                    t1.val = 2;
-                    t1.isSplit = false;
-                    mergedVisuals.push(t1); // Upgrade to visual array
-                    mergedSplits.splice(existingIdx, 1);
+                    splitWarnings.push(`Notice: '${m2.name}' (split) was ignored as it was already added.`);
                 } else if (m1 && m2 && !m1.isCompound && !m2.isCompound) {
                     let allele1 = m1.alleles[0];
                     let allele2 = m2.alleles[0];
                     let compound = mutationDB.find(m => m.isCompound && m.alleles.includes(allele1) && m.alleles.includes(allele2));
+                    
                     if (compound) {
-                        t1.id = compound.id;
-                        t1.val = 2;
-                        t1.isSplit = false;
-                        t1.type = compound.type;
-                        mergedVisuals.push(t1); // Upgrade to visual array
-                        mergedSplits.splice(existingIdx, 1);
+                        let compoundName = compound.result_label || compound.name;
+                        let fixFn = `applySmartFix('${sex}', '${compound.id}')`;
+                        splitWarnings.push(`⚠️ <strong>Notice:</strong> '${m2.name}' (split) was ignored. A bird cannot carry two hidden alleles on the same gene (${t.locus}-locus). Carrying both '${m1.name}' and '${m2.name}' would automatically make this bird a visual ${compoundName} compound.<br><br>💡 <strong>Did you mean to create a visual compound?</strong> <a href="javascript:void(0)" onclick="${fixFn}" class="smart-fix-btn" style="color: #007bff; text-decoration: underline; cursor: pointer;">Click here to apply: <strong>[${compoundName}]</strong></a>`);
                     } else {
-                        mergedSplits.push(t);
+                        splitWarnings.push(`⚠️ <strong>Notice:</strong> '${m2.name}' (split) was ignored. A bird cannot carry two hidden alleles on the same gene (${t.locus}-locus).`);
                     }
                 } else {
-                    mergedSplits.push(t);
+                    splitWarnings.push(`⚠️ <strong>Notice:</strong> '${m2.name}' (split) was ignored due to biological capacity limits on the ${t.locus}-locus.`);
                 }
             } else {
                 mergedSplits.push(t);
@@ -1514,10 +1546,11 @@ function processSearchQuery(query, species, sex) {
         }
     });
 
-    // ==========================================
-    // 3. Cross-Array Fusion (Locked Compounds)
-    // ==========================================
     let finalRawSplits = [];
+    
+    // ==========================================
+    // Cross-Array Fusion 
+    // ==========================================
     mergedSplits.forEach(s => {
         let vIndex = mergedVisuals.findIndex(v => v.locus === s.locus && v.locus !== "default" && v.locus !== "Independent Loci");
         if (vIndex !== -1) {
@@ -1526,22 +1559,20 @@ function processSearchQuery(query, species, sex) {
             let ms = mutationDB.find(m => m.id === s.id);
 
             if (v.id === s.id) {
-                v.val = 2;
-                v.isSplit = false;
+                splitWarnings.push(`Notice: '${ms.name}' (split) was ignored because the bird is already visually '${mv.name}'.`);
             } else if (mv && ms && !mv.isCompound && !ms.isCompound) {
                 let vAllele = mv.alleles[0];
                 let sAllele = ms.alleles[0];
                 let compound = mutationDB.find(m => m.isCompound && m.alleles.includes(vAllele) && m.alleles.includes(sAllele));
                 if (compound) {
-                    v.id = compound.id;
-                    v.val = 2;
-                    v.isSplit = false;
-                    v.type = compound.type;
+                    let compoundName = compound.result_label || compound.name;
+                    let fixFn = `applySmartFix('${sex}', '${compound.id}')`;
+                    splitWarnings.push(`⚠️ <strong>Notice:</strong> '${ms.name}' (split) was ignored. A bird cannot be visually '${mv.name}' and split to '${ms.name}' at the same time (${s.locus}-locus). This combination automatically creates a visual ${compoundName} compound.<br><br>💡 <strong>Did you mean to create a visual compound?</strong> <a href="javascript:void(0)" onclick="${fixFn}" class="smart-fix-btn" style="color: #007bff; text-decoration: underline; cursor: pointer;">Click here to apply: <strong>[${compoundName}]</strong></a>`);
                 } else {
-                    finalRawSplits.push(s);
+                    splitWarnings.push(`⚠️ <strong>Notice:</strong> '${ms.name}' (split) was ignored due to a biological conflict on the ${s.locus}-locus with visual '${mv.name}'.`);
                 }
             } else {
-                finalRawSplits.push(s);
+                splitWarnings.push(`⚠️ <strong>Notice:</strong> '${ms.name}' (split) was ignored due to a biological conflict on the ${s.locus}-locus with visual '${mv.name}'.`);
             }
         } else {
             finalRawSplits.push(s);
@@ -1584,14 +1615,13 @@ function processSearchQuery(query, species, sex) {
         }
     }
     
-    // ==========================================
-    // 4. Clean Unrecognized Words (Species Name Ignorer)
-    // ==========================================
     let leftoverRaw = (parsedVis.leftover + " " + parsedSplit.leftover).trim().toLowerCase();
     
+    // FIX: Added 'split' and '/' to ignorePhrases so they are silently removed from leftovers
     let ignorePhrases = [
         "lovebird", "love bird", "agapornis",
-        "and", "with", "the", "a", "sf", "df", "z1", "z2", "t1", "t2", "type", "type1", "type2"
+        "and", "with", "the", "a", "sf", "df", "z1", "z2", "t1", "t2", "type", "type1", "type2",
+        "split", "/"
     ];
     
     if (species === "white_eye_ring") {
@@ -1602,7 +1632,6 @@ function processSearchQuery(query, species, sex) {
         ignorePhrases.push("black-winged", "black winged", "black wing", "black-wing", "abyssinian", "abyssinia", "blackwinged", "blackwing");
     }
 
-    // Sort phrases by length (longest first) so things like "peach faced" are erased before "peach"
     ignorePhrases.sort((a, b) => b.length - a.length);
 
     ignorePhrases.forEach(phrase => {
@@ -1614,11 +1643,13 @@ function processSearchQuery(query, species, sex) {
     let remainingWords = leftoverRaw.split(/[\s]+/).filter(w => w);
     let leftover = remainingWords.join(' ').trim();
 
-    let warningText = "";
+    let warningText = splitWarnings.join("<br><br>");
     if (rejectedNames.length > 0) {
+        if (warningText) warningText += "<br><br>";
         warningText += `Notice: '${rejectedNames.join(", ")}' was ignored because the maximum capacity (2 alleles) for this locus is already full. `;
     }
     if (leftover.length > 0) {
+        if (warningText) warningText += "<br><br>";
         warningText += `Unrecognized term detected: '${leftover}'. Please check your spelling.`;
     }
 
@@ -1776,7 +1807,7 @@ function handleSearchInput(sex) {
     let allParsedTraits = [...parsed.visuals, ...parsed.splits];
 
     if (parsed.warningText) {
-        warningEl.textContent = parsed.warningText;
+        warningEl.innerHTML = parsed.warningText; // Supports Smart Fix HTML Link rendering
         warningEl.style.display = 'block';
     } else {
         warningEl.style.display = 'none';
