@@ -702,18 +702,6 @@ button#mobile-preview-generate-btn{
 }
 /* ============================================================================
    WIDE TIER (>=1600px) — reveal the sticky live-preview panel to the right
-   of the Dam column. Page max-width grows to fit it (roughly
-   1240px + ~280px panel + gap); sire/dam column widths themselves are left
-   untouched, per the original ask, rather than shrinking them to make room.
-   Scoped to .container/#results-container/#shared-banner only -- NOT the
-   masthead -- so the hero/tagline keep their current, more readable line
-   length rather than stretching to match. Below this width (a large amount
-   of real "desktop" traffic is a 1280-1440px laptop window, not a 1920px
-   monitor) the layout quietly falls back to today's behavior: no panel,
-   #controls-container's row is the only way to act.
-   ========================================================================== */
-/* ============================================================================
-   WIDE TIER (>=1600px) — reveal the sticky live-preview panel to the right
    of the Dam column. Page max-width grows to 1700px: 440px panel + 20px gap
    on top of the original 1240px two-column width -- chosen specifically so
    Sire/Dam end up exactly their original (pre-feature) width rather than
@@ -782,9 +770,23 @@ button#mobile-preview-generate-btn{
   font-weight: 700;
   user-select: none;
 }
+.search-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  color: var(--ink-soft);
+  pointer-events: none;
+}
 .search-input {
   width: 100%;
-  padding: 12px 14px;
+  padding: 12px 14px 12px 42px; /* Extra padding-left for the icon */
   border: 1.5px solid var(--line-strong);
   border-radius: var(--r-sm);
   font-size: 1em;
