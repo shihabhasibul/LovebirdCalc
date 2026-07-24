@@ -432,15 +432,55 @@ tbody tr:last-child td{border-bottom:none}
 sup{font-size:.72em; line-height:0; position:relative; vertical-align:baseline; top:-.5em}
 sub{font-size:.72em; line-height:0; position:relative; vertical-align:baseline; bottom:-.25em}
 
-/* ---------- share ---------- */
-button#share-btn{
+/* ---------- share and print ---------- */
+.share-print-buttons {
+  display: flex; justify-content: center; gap: 15px; flex-wrap: wrap;
+}
+button#share-btn, button#print-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   font-family:var(--sans); font-weight:800; color:#fff; border:none; border-radius:999px; cursor:pointer;
   padding:14px 30px; font-size:1.05em; letter-spacing:.01em;
   background:linear-gradient(135deg,var(--grass),var(--grass-2)); box-shadow:var(--sh-sm);
   transition:transform .15s, box-shadow .15s;
 }
-button#share-btn:hover{transform:translateY(-2px); box-shadow:var(--sh-md)}
-button#share-btn:active{transform:translateY(0)}
+button#share-btn:hover, button#print-btn:hover {transform:translateY(-2px); box-shadow:var(--sh-md)}
+button#share-btn:active, button#print-btn:active {transform:translateY(0)}
+
+/* Differentiate the Print button slightly using the Forest green */
+button#print-btn {
+  background: var(--forest);
+}
+button#print-btn:hover {
+  background: var(--forest-2);
+}
+
+.button-icon {
+  width: 18px; height: 18px; flex: none;
+}
+
+/* ============================================================================
+   PRINT OPTIMIZATION
+   ========================================================================== */
+@media print {
+  body { background: none; color: #000; padding: 0; }
+  
+  /* Hide UI elements that shouldn't be printed */
+  .masthead, .header-controls, #symbol-toggle-wrap, .container, 
+  #controls-container, #shared-banner, #share-container, .mobile-preview-bar { 
+    display: none !important; 
+  }
+  
+  /* Reset the results container to act like standard page text */
+  #results-container { 
+    display: block !important; border: none; box-shadow: none; margin: 0; padding: 0; 
+  }
+  
+  /* Ensure colored backgrounds print as simple borders for legibility */
+  .parents-summary { border: 1px solid #ccc; background: #fff !important; color: #000 !important; }
+  .mutation-warning-note { border: 1px solid #ccc; background: #fff !important; color: #000 !important; }
+  th { background: #eee !important; color: #000 !important; border: 1px solid #ccc; }
+  td { border: 1px solid #ccc; color: #000 !important; }
+}
 .share-link-box{margin-top:14px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap; align-items:center}
 .share-link-box input{
   flex:1; min-width:240px; max-width:500px; padding:11px 16px; border:1.5px solid var(--line-strong); border-radius:999px;
