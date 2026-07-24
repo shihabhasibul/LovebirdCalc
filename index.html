@@ -90,7 +90,7 @@
                         <circle cx="11" cy="11" r="8"></circle>
                         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                     </svg>
-                    <input type="text" id="sire-search-input" class="search-input" placeholder="" autocomplete="off">
+                    <input type="text" id="sire-search-input" class="search-input" placeholder="Enter male mutation name here" autocomplete="off">
                 </div>
                 <div id="sire-linkage-controls" class="linkage-controls"></div>
                 <div id="sire-suggestions-container" class="suggestions-container"></div>
@@ -116,7 +116,7 @@
                         <circle cx="11" cy="11" r="8"></circle>
                         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                     </svg>
-                    <input type="text" id="dam-search-input" class="search-input" placeholder="" autocomplete="off">
+                    <input type="text" id="dam-search-input" class="search-input" placeholder="Enter female mutation name here" autocomplete="off">
                 </div>
                 <div id="dam-linkage-controls" class="linkage-controls"></div>
                 <div id="dam-suggestions-container" class="suggestions-container"></div>
@@ -175,7 +175,16 @@
         <div id="results-content"></div>
 
         <div id="share-container" style="display:none; text-align:center; margin-top:20px;">
-            <button type="button" id="share-btn" onclick="shareResults()">Share Results</button>
+            <div class="share-print-buttons">
+                <button type="button" id="share-btn" onclick="shareResults()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="button-icon"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line></svg>
+                    Share Results
+                </button>
+                <button type="button" id="print-btn" onclick="window.print()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="button-icon"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+                    Print
+                </button>
+            </div>
             <div id="share-link-box" class="share-link-box" style="display:none;"></div>
         </div>
     </div>
