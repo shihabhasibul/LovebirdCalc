@@ -898,6 +898,7 @@ button#mobile-preview-generate-btn{
   background: var(--card);
   color: var(--ink);
   transition: border-color .15s, box-shadow .15s;
+  font-style: italic;
 }
 .search-input:focus {
   border-color: var(--grass);
