@@ -918,11 +918,6 @@ function calculateGenetics() {
 
     const parents = computeParentsPhenotypes();
     const { sire, dam, hasSL, sirePheno, damPheno, sireName, damName } = parents;
-   // --- NEW: Generate warnings for the final Results Screen ---
-    let sireWarnings = generateBreedingWarnings(sirePheno.expressedIDs, sirePheno.splitIDs);
-    let damWarnings = generateBreedingWarnings(damPheno.expressedIDs, damPheno.splitIDs);
-    document.getElementById("parents-summary").innerHTML = buildParentsTableHTML(sireName, sirePheno.symbol, damName, damPheno.symbol, sireWarnings, damWarnings);
-    // -----------------------------------------------------------
 
     const sireZGametes = generateZGametesMale(sire.z1, sire.z2);
     const sireAutoGametes = generateAutosomalGametes(sire.autoGenes, sire.dfPhase);
@@ -963,16 +958,36 @@ function calculateGenetics() {
     });
 
     const offspringArray = Object.values(rawOffspring);
+
+    // 1. Gather all unique offspring warnings first
+    let offspringWarningsSet = new Set();
+    offspringArray.forEach(r => {
+        let birdWarnings = generateBreedingWarnings(r.expressedIDs, r.splitIDs);
+        birdWarnings.forEach(w => offspringWarningsSet.add(w));
+    });
+
+    // 2. Generate Parent warnings, but FILTER OUT any that already appear in the offspring
+    let sireWarnings = generateBreedingWarnings(sirePheno.expressedIDs, sirePheno.splitIDs).filter(w => !offspringWarningsSet.has(w));
+    let damWarnings = generateBreedingWarnings(damPheno.expressedIDs, damPheno.splitIDs).filter(w => !offspringWarningsSet.has(w));
+
+    // 3. Render the top Parent box with the filtered warnings (pairing warnings kept empty here)
+    document.getElementById("parents-summary").innerHTML = buildParentsTableHTML(sireName, sirePheno.symbol, damName, damPheno.symbol, sireWarnings, damWarnings, []);
+
+    // 4. Render the Offspring box (which automatically prints the offspringWarningsSet)
     renderResults(offspringArray, hasSL);
 
     const resultsEl = document.getElementById("results-container");
     if (resultsEl) resultsEl.scrollIntoView({ behavior: "smooth", block: "start" });
 
+    // 5. Save everything for sharing
     lastCalcData = {
-        sire: { symbol: sirePheno.symbol, name: sireName },
-        dam: { symbol: damPheno.symbol, name: damName },
+        sire: { symbol: sirePheno.symbol, name: sireName, warnings: sireWarnings },
+        dam: { symbol: damPheno.symbol, name: damName, warnings: damWarnings },
         hasSL: hasSL,
-        offspring: offspringArray.map(r => ({ symbol: r.symbol, name: r.name, prob: r.prob, expressedIDs: r.expressedIDs }))
+        offspring: offspringArray.map(r => ({ 
+            symbol: r.symbol, name: r.name, prob: r.prob, 
+            expressedIDs: r.expressedIDs, splitIDs: r.splitIDs 
+        }))
     };
     document.getElementById("share-link-box").style.display = "none";
     document.getElementById("share-link-box").innerHTML = "";
@@ -1030,7 +1045,13 @@ function renderResults(resultsData, hasSL, showShareButton = true) {
     container.scrollIntoView({ behavior: 'smooth' });
 
     const shareContainer = document.getElementById("share-container");
-    if (shareContainer) shareContainer.style.display = showShareButton ? "block" : "none";
+    const shareBtn = document.getElementById("share-btn");
+    
+    // Always show the container so the Print button is available
+    if (shareContainer) shareContainer.style.display = "block";
+    
+    // Selectively hide ONLY the Share button when in read-only mode
+    if (shareBtn) shareBtn.style.display = showShareButton ? "inline-flex" : "none";
 }
 
 function generateBreedingWarnings(visualIDs, splitIDs = []) {
@@ -1180,15 +1201,19 @@ function enterSharedView(payload) {
         banner.innerHTML = `<span>You're viewing shared breeding results (read-only).</span><button type="button" class="js-toggle-symbols-btn" onclick="toggleGeneticSymbols()">${symbolsLabel}</button><button type="button" onclick="exitSharedView()">Start New Calculation</button>`;
     }
 
-    document.getElementById("parents-summary").innerHTML = `
-        <div class="parents-heading">Parents</div>
-        <table class="parents-table">
-            <thead><tr><th>Genotype / Mutation Name</th><th class="col-genetic-formula">Genetic Formulas</th></tr></thead>
-            <tbody>
-                <tr><td><strong>1.0 Sire (Male):</strong> ${payload.sire.name}</td><td class="genetic-formula col-genetic-formula">${payload.sire.symbol}</td></tr>
-                <tr><td><strong>0.1 Dam (Female):</strong> ${payload.dam.name}</td><td class="genetic-formula col-genetic-formula">${payload.dam.symbol}</td></tr>
-            </tbody>
-        </table>`;
+    let sireWarnings = payload.sire.warnings || [];
+    let damWarnings = payload.dam.warnings || [];
+    // We purposefully ignore pairingWarnings here so they only show up in the offspring box
+
+    document.getElementById("parents-summary").innerHTML = buildParentsTableHTML(
+        payload.sire.name, 
+        payload.sire.symbol, 
+        payload.dam.name, 
+        payload.dam.symbol, 
+        sireWarnings, 
+        damWarnings, 
+        [] // Keep empty here so the offspring box handles these instead
+    );
 
     renderResults(payload.offspring, payload.hasSL, false);
 }
