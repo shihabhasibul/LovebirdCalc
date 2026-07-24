@@ -178,12 +178,24 @@ function updateUI() {
     renderLivePreview();
 }
 let geneticSymbolsHidden = true;
+const dnaSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="button-icon" style="margin-right: 6px; vertical-align: -4px;"><path d="M2 15c6.667-6 13.333 0 20-6"/><path d="M9 22c1.798-1.998 2.518-3.995 2.807-5.993"/><path d="M15 2c-1.798 1.998-2.518 3.995-2.807 5.993"/><path d="m17 6-2.5-2.5"/><path d="m14 8-1-1"/><path d="m7 18 2.5 2.5"/><path d="m3.5 14.5.5.5"/><path d="m20 9 .5.5"/><path d="m10 16 1 1"/></svg>`;
+
 function toggleGeneticSymbols() {
     geneticSymbolsHidden = !geneticSymbolsHidden;
     document.body.classList.toggle("hide-genetic-symbols", geneticSymbolsHidden);
     const label = geneticSymbolsHidden ? "Show Genetic Symbols" : "Hide Genetic Symbols";
-    document.querySelectorAll(".js-toggle-symbols-btn").forEach(btn => { btn.textContent = label; });
+    document.querySelectorAll(".js-toggle-symbols-btn").forEach(btn => { 
+        btn.innerHTML = dnaSvg + label; 
+    });
 }
+
+// Ensure the DNA icon appears on all existing buttons instantly when the page loads
+document.addEventListener("DOMContentLoaded", () => {
+    const label = geneticSymbolsHidden ? "Show Genetic Symbols" : "Hide Genetic Symbols";
+    document.querySelectorAll(".js-toggle-symbols-btn").forEach(btn => { 
+        btn.innerHTML = dnaSvg + label; 
+    });
+});
 
 function resetCalculator() {
     document.querySelectorAll('.mutation-item input[type="checkbox"]').forEach(cb => {
@@ -1147,6 +1159,8 @@ function decodeSharePayload(str) {
     return JSON.parse(decodeURIComponent(escape(atob(str))));
 }
 
+const copySvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="button-icon" style="margin-right: 6px; vertical-align: -4px;"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>`;
+
 function shareResults() {
     if (!lastCalcData) return;
     const encoded = encodeSharePayload(lastCalcData);
@@ -1154,7 +1168,7 @@ function shareResults() {
 
     const box = document.getElementById("share-link-box");
     box.style.display = "flex";
-    box.innerHTML = `<input type="text" id="share-link-input" readonly><button type="button" id="copy-link-btn" onclick="copyShareLink()">Copy Link</button>`;
+    box.innerHTML = `<input type="text" id="share-link-input" readonly><button type="button" id="copy-link-btn" onclick="copyShareLink()">${copySvg} Copy Link</button>`;
     const input = document.getElementById("share-link-input");
     input.value = url;
     input.focus();
@@ -1170,9 +1184,9 @@ function copyShareLink() {
 
     const showResult = (ok) => {
         if (!btn) return;
-        const original = "Copy Link";
-        btn.textContent = ok ? "Copied!" : "Press Ctrl+C";
-        setTimeout(() => { btn.textContent = original; }, 1500);
+        const original = `${copySvg} Copy Link`;
+        btn.innerHTML = ok ? `${copySvg} Copied!` : `${copySvg} Press Ctrl+C`;
+        setTimeout(() => { btn.innerHTML = original; }, 1500);
     };
 
     if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -1198,7 +1212,9 @@ function enterSharedView(payload) {
     if (banner) {
         banner.style.display = "flex";
         const symbolsLabel = geneticSymbolsHidden ? "Show Genetic Symbols" : "Hide Genetic Symbols";
-        banner.innerHTML = `<span>You're viewing shared breeding results (read-only).</span><button type="button" class="js-toggle-symbols-btn" onclick="toggleGeneticSymbols()">${symbolsLabel}</button><button type="button" onclick="exitSharedView()">Start New Calculation</button>`;
+        const newCalcSvg = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="button-icon" style="margin-right: 6px; vertical-align: -4px;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="16"></line><line x1="8" y1="12" x2="16" y2="12"></line></svg>`;
+        
+        banner.innerHTML = `<span>You're viewing shared breeding results (read-only).</span><button type="button" class="js-toggle-symbols-btn" onclick="toggleGeneticSymbols()">${dnaSvg}${symbolsLabel}</button><button type="button" onclick="exitSharedView()">${newCalcSvg}Start New Calculation</button>`;
     }
 
     let sireWarnings = payload.sire.warnings || [];
