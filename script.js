@@ -36,21 +36,21 @@ const mutationDB = [
     { id: "aqua", symbol: "bl^{aq}", name: "aqua", cat: 1, type: "AR", locus: "bl", locusGroup: "Multiple Alleles of bl-locus", alleles: ["aqua"], sp: { white_eye_ring: "original", roseicollis: "original" } },
     { id: "blue1", symbol: "bl^{1}", name: "blue1", cat: 1, type: "AR", locus: "bl", locusGroup: "Multiple Alleles of bl-locus", alleles: ["blue1"], sp: { white_eye_ring: "original" } },
     { id: "blue2", symbol: "bl^{2}", name: "blue2", cat: 1, type: "AR", locus: "bl", locusGroup: "Multiple Alleles of bl-locus", alleles: ["blue2"], sp: { white_eye_ring: "original" } },
-    { id: "rose_blue", symbol: "bl", name: "*blue*", cat: 1, type: "AR", locus: "bl", locusGroup: "Multiple Alleles of bl-locus", alleles: ["rose_blue"], sp: { roseicollis: "original" }, note: "** needs further investigation" },
+    { id: "rose_blue", symbol: "bl", name: "*blue*", cat: 1, type: "AR", locus: "bl", locusGroup: "Multiple Alleles of bl-locus", alleles: ["rose_blue"], sp: { roseicollis: "original" }, note: "** needs further investigation", shortNote: "** needs further investigation" },
     { id: "turquoise", symbol: "bl^{tq}", name: "turquoise", cat: 1, type: "AR", locus: "bl", locusGroup: "Multiple Alleles of bl-locus", alleles: ["turquoise"], sp: { roseicollis: "original" } },
     { id: "teal", symbol: "tl", name: "teal", cat: 1, type: "AR", locus: "teal", locusGroup: "default", alleles: ["teal"], sp: { taranta: "original" } },
 
     { id: "aqua_blue1", symbol: "bl^{aq}/bl^{1}", name: "AquaBlue1", cat: 1, type: "AR", isCompound: true, locus: "bl", locusGroup: "Allelic Compounds of bl-locus", alleles: ["aqua", "blue1"], sp: { white_eye_ring: "original" } },
     { id: "aqua_blue2", symbol: "bl^{aq}/bl^{2}", name: "AquaBlue2", cat: 1, type: "AR", isCompound: true, locus: "bl", locusGroup: "Allelic Compounds of bl-locus", alleles: ["aqua", "blue2"], sp: { white_eye_ring: "original" } },
     { id: "blue1_blue2", symbol: "bl^{1}/bl^{2}", name: "Blue1Blue2", cat: 1, type: "AR", isCompound: true, locus: "bl", locusGroup: "Allelic Compounds of bl-locus", alleles: ["blue1", "blue2"], sp: { white_eye_ring: "original" } },
-    { id: "aqua_rose_blue", symbol: "bl^{aq}/bl", name: "Aqua*Blue*", cat: 1, type: "AR", isCompound: true, locus: "bl", locusGroup: "Allelic Compounds of bl-locus", alleles: ["aqua", "rose_blue"], sp: { roseicollis: "original" }, note: "** needs further investigation" },
-    { id: "turquoise_rose_blue", symbol: "bl^{tq}/bl", name: "Turquoise*Blue*", cat: 1, type: "AR", isCompound: true, locus: "bl", locusGroup: "Allelic Compounds of bl-locus", alleles: ["turquoise", "rose_blue"], sp: { roseicollis: "original" }, note: "** needs further investigation" },
+    { id: "aqua_rose_blue", symbol: "bl^{aq}/bl", name: "Aqua*Blue*", cat: 1, type: "AR", isCompound: true, locus: "bl", locusGroup: "Allelic Compounds of bl-locus", alleles: ["aqua", "rose_blue"], sp: { roseicollis: "original" }, note: "** needs further investigation", shortNote: "** needs further investigation" },
+    { id: "turquoise_rose_blue", symbol: "bl^{tq}/bl", name: "Turquoise*Blue*", cat: 1, type: "AR", isCompound: true, locus: "bl", locusGroup: "Allelic Compounds of bl-locus", alleles: ["turquoise", "rose_blue"], sp: { roseicollis: "original" }, note: "** needs further investigation", shortNote: "** needs further investigation" },
     { id: "aqua_turquoise", symbol: "bl^{aq}/bl^{tq}", name: "AquaTurquoise", cat: 1, type: "AR", isCompound: true, locus: "bl", locusGroup: "Allelic Compounds of bl-locus", alleles: ["aqua", "turquoise"], sp: { roseicollis: "original" } },
 
-    { id: "sapphire", symbol: "bl^{1}_bl^{2}/bl^{1}_bl^{2}", selector_label: "Sapphire (blue1-blue2)", result_label: "Sapphire", name: "Sapphire", cat: 1, type: "AR", locus: "bl", locusGroup: "Sapphire", isCompound: false, alleles: ["cis_bl1_bl2"], sp: { white_eye_ring: "original" } },
-    { id: "sapphire_blue1", symbol: "bl^{1}_bl^{2}/bl^{1}_bl^{+}", selector_label: "SapphireBlue1 (blue1-blue2/blue1)", result_label: "SapphireBlue1", name: "SapphireBlue1", cat: 1, type: "AR", locus: "bl", locusGroup: "Sapphire", isCompound: true, alleles: ["cis_bl1_bl2", "blue1"], sp: { white_eye_ring: "original" } },
-    { id: "sapphire_blue2", symbol: "bl^{1}_bl^{2}/bl^{+}_bl^{2}", selector_label: "SapphireBlue2 (blue1-blue2/blue2)", result_label: "SapphireBlue2", name: "SapphireBlue2", cat: 1, type: "AR", locus: "bl", locusGroup: "Sapphire", isCompound: true, alleles: ["cis_bl1_bl2", "blue2"], sp: { white_eye_ring: "original" } },
-    { id: "aqua_sapphire", symbol: "bl^{1}_bl^{2}/bl^{aq}_bl^{+}", selector_label: "AquaSapphire (blue1-blue2/aqua)", result_label: "AquaSapphire", name: "AquaSapphire", cat: 1, type: "AR", locus: "bl", locusGroup: "Sapphire", isCompound: true, alleles: ["cis_bl1_bl2", "aqua"], sp: { white_eye_ring: "original" } },
+    { id: "sapphire", symbol: "bl^{1}_bl^{2}/bl^{1}_bl^{2}", selector_label: "Sapphire (blue1-blue2)", result_label: "Sapphire", name: "Sapphire", cat: 1, type: "AR", locus: "bl", locusGroup: "Sapphire", isCompound: false, alleles: ["cis_bl1_bl2"], sp: { white_eye_ring: "original" }, shortNote: "Sapphire is not a separate mutation — it's the blue1-blue2 crossed-over mutant, not a new gene." },
+    { id: "sapphire_blue1", symbol: "bl^{1}_bl^{2}/bl^{1}_bl^{+}", selector_label: "SapphireBlue1 (blue1-blue2/blue1)", result_label: "SapphireBlue1", name: "SapphireBlue1", cat: 1, type: "AR", locus: "bl", locusGroup: "Sapphire", isCompound: true, alleles: ["cis_bl1_bl2", "blue1"], sp: { white_eye_ring: "original" }, shortNote: "Sapphire is not a separate mutation — it's the blue1-blue2 crossed-over mutant, not a new gene." },
+    { id: "sapphire_blue2", symbol: "bl^{1}_bl^{2}/bl^{+}_bl^{2}", selector_label: "SapphireBlue2 (blue1-blue2/blue2)", result_label: "SapphireBlue2", name: "SapphireBlue2", cat: 1, type: "AR", locus: "bl", locusGroup: "Sapphire", isCompound: true, alleles: ["cis_bl1_bl2", "blue2"], sp: { white_eye_ring: "original" }, shortNote: "Sapphire is not a separate mutation — it's the blue1-blue2 crossed-over mutant, not a new gene." },
+    { id: "aqua_sapphire", symbol: "bl^{1}_bl^{2}/bl^{aq}_bl^{+}", selector_label: "AquaSapphire (blue1-blue2/aqua)", result_label: "AquaSapphire", name: "AquaSapphire", cat: 1, type: "AR", locus: "bl", locusGroup: "Sapphire", isCompound: true, alleles: ["cis_bl1_bl2", "aqua"], sp: { white_eye_ring: "original" }, shortNote: "Sapphire is not a separate mutation — it's the blue1-blue2 crossed-over mutant, not a new gene." },
 
     { id: "dark_factor", symbol: "D", name: "dark factor", cat: 2, type: "AID", locus: "dark_factor", locusGroup: "default", alleles: ["dark_factor"], sp: { taranta: "original", roseicollis: "original", white_eye_ring: "original" } },
 
@@ -59,7 +59,7 @@ const mutationDB = [
     { id: "slaty", symbol: "Slt", name: "slaty", cat: 3, type: "AD", locus: "slaty", locusGroup: "default", alleles: ["slaty"], sp: { white_eye_ring: "original" } },
 
     { id: "dom_pied", symbol: "Pi", name: "dominant pied", cat: 4, type: "AD", locus: "dom_pied", locusGroup: "default", alleles: ["dom_pied"], sp: { roseicollis: "original", white_eye_ring: "original" } },
-    { id: "dom_reduced", symbol: "Rdu", name: "dominant reduced", cat: 4, type: "AD", locus: "dom_reduced", locusGroup: "default", alleles: ["dom_reduced"], sp: { white_eye_ring: "original" }, infoNote: "Note: Dominant Reduced is an autosomal dominant mutation with variable expressivity. Birds carrying the mutation may show different levels of visual expression, from very mild to very strong. This calculator predicts inheritance only, not the intensity of the phenotype." },
+    { id: "dom_reduced", symbol: "Rdu", name: "dominant reduced", cat: 4, type: "AD", locus: "dom_reduced", locusGroup: "default", alleles: ["dom_reduced"], sp: { white_eye_ring: "original" }, infoNote: "Note: Dominant Reduced is an autosomal dominant mutation with variable expressivity. Birds carrying the mutation may show different levels of visual expression, from very mild to very strong. This calculator predicts inheritance only, not the intensity of the phenotype.", shortNote: "Expression varies bird to bird (mild to strong); this predicts inheritance only, not intensity." },
     { id: "dom_edged", symbol: "Ed", name: "dominant edged", cat: 4, type: "AID", locus: "dom_edged", locusGroup: "default", alleles: ["dom_edged"], sp: { white_eye_ring: "original" } },
     { id: "euwing", symbol: "Ew", name: "euwing", cat: 4, type: "AID", locus: "euwing", locusGroup: "default", alleles: ["euwing"], sp: { white_eye_ring: "original" } },
     { id: "grey_factor", symbol: "Gf", name: "grey factor", cat: 4, type: "AID", locus: "grey_factor", locusGroup: "default", alleles: ["grey_factor"], sp: { roseicollis: "original" } },
@@ -80,9 +80,9 @@ const mutationDB = [
     { id: "pale_fallow", symbol: "pf", name: "pale fallow", cat: 4, type: "AR", locus: "pale_fallow", locusGroup: "Independent Loci", alleles: ["pale_fallow"], sp: { taranta: "original", roseicollis: "original", white_eye_ring: "original" } },
     { id: "dun_fallow", symbol: "df", name: "dun fallow", cat: 4, type: "AR", locus: "dun_fallow", locusGroup: "Independent Loci", alleles: ["dun_fallow"], sp: { white_eye_ring: "original" } },
     { id: "rec_pied", symbol: "s", name: "recessive pied", cat: 4, type: "AR", locus: "rec_pied", locusGroup: "Independent Loci", alleles: ["rec_pied"], sp: { roseicollis: "original", white_eye_ring: "original" } },
-    { id: "faded", symbol: "fd", name: "*faded*", cat: 4, type: "AR", locus: "faded", locusGroup: "Independent Loci", alleles: ["faded"], sp: { white_eye_ring: "original" }, note: "** needs further investigation" },
+    { id: "faded", symbol: "fd", name: "*faded*", cat: 4, type: "AR", locus: "faded", locusGroup: "Independent Loci", alleles: ["faded"], sp: { white_eye_ring: "original" }, note: "** needs further investigation", shortNote: "** needs further investigation" },
     { id: "marbled", symbol: "mb", name: "marbled", cat: 4, type: "AR", locus: "marbled", locusGroup: "Independent Loci", alleles: ["marbled"], sp: { roseicollis: "original" } },
-    { id: "dm_jade", symbol: "ja", name: "DM jade", cat: 4, type: "AR", locus: "dm_jade", locusGroup: "Independent Loci", alleles: ["dm_jade"], sp: { roseicollis: "original" }, infoNote: "Note: DM Jade is an autosomal recessive, sexually dimorphic mutation. Although inheritance is predicted accurately, males and females with the same genotype may look different. Therefore, the visual appearance of offspring depends on their sex as well as their genotype." },
+    { id: "dm_jade", symbol: "ja", name: "DM jade", cat: 4, type: "AR", locus: "dm_jade", locusGroup: "Independent Loci", alleles: ["dm_jade"], sp: { roseicollis: "original" }, infoNote: "Note: DM Jade is an autosomal recessive, sexually dimorphic mutation. Although inheritance is predicted accurately, males and females with the same genotype may look different. Therefore, the visual appearance of offspring depends on their sex as well as their genotype.", shortNote: "Sexually dimorphic — males and females with the same genotype can look different." },
 
     { id: "sl_ino", symbol: "ino", name: "SL ino", cat: 4, type: "SLR", locus: "ino", locusGroup: "Multiple Alleles of ino-locus", alleles: ["sl_ino"], sp: { roseicollis: "original" } },
     { id: "pallid", symbol: "ino^{pd}", name: "pallid", cat: 4, type: "SLR", locus: "ino", locusGroup: "Multiple Alleles of ino-locus", alleles: ["pallid"], sp: { roseicollis: "original", white_eye_ring: "original" } },
@@ -145,6 +145,7 @@ function updateUI() {
 
     const sireSearch = document.getElementById("sire-search-container");
     const damSearch = document.getElementById("dam-search-container");
+    const mobileHub = document.getElementById("mobile-unified-search-hub");
 
     if (species === "none") {
         ui.style.display = "none"; btn.style.display = "none"; rBtn.style.display = "none";
@@ -154,6 +155,7 @@ function updateUI() {
         
         if (sireSearch) sireSearch.style.display = "none";
         if (damSearch) damSearch.style.display = "none";
+        if (mobileHub) mobileHub.classList.remove("is-active"); 
         
         resetSearchEngine();
         renderLivePreview();
@@ -167,6 +169,7 @@ function updateUI() {
     
     if (sireSearch) sireSearch.style.display = "block";
     if (damSearch) damSearch.style.display = "block";
+    if (mobileHub) mobileHub.classList.add("is-active"); 
 
     resetSearchEngine();
     
@@ -174,7 +177,6 @@ function updateUI() {
     renderBird("dam-categories", species, "female");
     renderLivePreview();
 }
-
 let geneticSymbolsHidden = true;
 function toggleGeneticSymbols() {
     geneticSymbolsHidden = !geneticSymbolsHidden;
@@ -794,7 +796,7 @@ function translatePhenotype(z1, z2, auto, sex, indPhase, hasSL, offspringMode, b
 
     if (hasSL) finalName += ` (${sex})`;
 
-    return { symbol: renderFormat(symbolParts.join("; ")), name: finalName, expressedIDs: expressedIDs };
+    return { symbol: renderFormat(symbolParts.join("; ")), name: finalName, expressedIDs: expressedIDs, splitIDs: splitTraits.map(m => m.id) };
 }
 
 function computeParentsPhenotypes() {
@@ -822,8 +824,10 @@ function computeParentsPhenotypes() {
     return { sire, dam, hasSL, sirePheno, damPheno, sireName, damName };
 }
 
-function buildParentsTableHTML(sireName, sireSymbol, damName, damSymbol) {
-    return `
+// Modify the signature to include pairingWarnings
+function buildParentsTableHTML(sireName, sireSymbol, damName, damSymbol, sireWarnings = [], damWarnings = [], pairingWarnings = []) {
+    // We are putting the actual table HTML back here instead of the "..." placeholder
+    let html = `
         <div class="parents-heading">Parents</div>
         <table class="parents-table">
             <thead><tr><th>Genotype / Mutation Name</th><th class="col-genetic-formula">Genetic Formulas</th></tr></thead>
@@ -832,6 +836,23 @@ function buildParentsTableHTML(sireName, sireSymbol, damName, damSymbol) {
                 <tr><td><strong>0.1 Dam (Female):</strong> ${damName}</td><td class="genetic-formula col-genetic-formula">${damSymbol}</td></tr>
             </tbody>
         </table>`;
+        
+    if (sireWarnings.length > 0 || damWarnings.length > 0 || pairingWarnings.length > 0) {
+        html += `<div style="margin-top: 15px;">`;
+        sireWarnings.forEach(w => {
+            html += `<div class="mutation-warning-note" style="margin-left:0;"><strong>Sire Warning:</strong> ${w}</div>`;
+        });
+        damWarnings.forEach(w => {
+            html += `<div class="mutation-warning-note" style="margin-left:0;"><strong>Dam Warning:</strong> ${w}</div>`;
+        });
+        // Inject Pairing Warnings
+        pairingWarnings.forEach(w => {
+            html += `<div class="mutation-warning-note" style="margin-left:0;"><strong>Pairing Warning:</strong> ${w}</div>`;
+        });
+        html += `</div>`;
+    }
+    
+    return html;
 }
 
 function renderLivePreview() {
@@ -866,7 +887,12 @@ function renderLivePreview() {
         if (mobileBody) mobileBody.innerHTML = `<p class="live-preview-empty"></p>`;
         if (mobileNames) mobileNames.textContent = "";
     } else {
-        const tableHTML = buildParentsTableHTML(data.sireName, data.sirePheno.symbol, data.damName, data.damPheno.symbol);
+        let pairingWarnings = getPairingWarnings(); // Fetch the combination warnings
+
+        // Live Preview only shows pairing (offspring-risk) warnings -- sire/dam individual
+        // warnings are still shown in the Quick Add search box and on the final Results screen.
+        let tableHTML = buildParentsTableHTML(data.sireName, data.sirePheno.symbol, data.damName, data.damPheno.symbol, [], [], pairingWarnings);
+
         if (desktopBody) desktopBody.innerHTML = tableHTML;
         if (mobileBody) mobileBody.innerHTML = tableHTML;
         if (mobileNames) mobileNames.textContent = `${data.sireName} \u00D7 ${data.damName}`;
@@ -892,7 +918,11 @@ function calculateGenetics() {
 
     const parents = computeParentsPhenotypes();
     const { sire, dam, hasSL, sirePheno, damPheno, sireName, damName } = parents;
-    document.getElementById("parents-summary").innerHTML = buildParentsTableHTML(sireName, sirePheno.symbol, damName, damPheno.symbol);
+   // --- NEW: Generate warnings for the final Results Screen ---
+    let sireWarnings = generateBreedingWarnings(sirePheno.expressedIDs, sirePheno.splitIDs);
+    let damWarnings = generateBreedingWarnings(damPheno.expressedIDs, damPheno.splitIDs);
+    document.getElementById("parents-summary").innerHTML = buildParentsTableHTML(sireName, sirePheno.symbol, damName, damPheno.symbol, sireWarnings, damWarnings);
+    // -----------------------------------------------------------
 
     const sireZGametes = generateZGametesMale(sire.z1, sire.z2);
     const sireAutoGametes = generateAutosomalGametes(sire.autoGenes, sire.dfPhase);
@@ -979,14 +1009,22 @@ function renderResults(resultsData, hasSL, showShareButton = true) {
         content.innerHTML = html;
     }
 
+    // Keep the sapphire crossing-over warning evaluating the whole batch
     if (allExpressedIDs.includes("blue1_blue2")) {
-        content.innerHTML += `<div class="mutation-warning-note">This result does not include crossing-over. A blue1-blue2 recombination event — which can produce Sapphire, SapphireBlue1, SapphireBlue2, or AquaSapphire — is possible in this pairing, but its rate hasn't been established, so it isn't factored into the odds shown above.</div>`;
+        content.innerHTML += `<div class="mutation-warning-note">This result does not include crossing-over. A blue1-blue2 recombination event — which can produce Sapphire, SapphireBlue1, or SapphireBlue2 — is possible in this pairing, but its rate hasn't been established, so it isn't factored into the odds shown above.</div>`;
     }
 
-    const warnings = generateBreedingWarnings([...new Set(allExpressedIDs)]);
-    warnings.forEach(note => {
+    // --- FIXED: Evaluate warnings per offspring, not as a grouped batch ---
+    let uniqueWarnings = new Set();
+    resultsData.forEach(r => {
+        let birdWarnings = generateBreedingWarnings(r.expressedIDs, r.splitIDs);
+        birdWarnings.forEach(w => uniqueWarnings.add(w));
+    });
+
+    uniqueWarnings.forEach(note => {
         content.innerHTML += `<div class="mutation-warning-note">${note}</div>`;
     });
+    // ----------------------------------------------------------------------
 
     container.style.display = "block";
     container.scrollIntoView({ behavior: 'smooth' });
@@ -995,19 +1033,86 @@ function renderResults(resultsData, hasSL, showShareButton = true) {
     if (shareContainer) shareContainer.style.display = showShareButton ? "block" : "none";
 }
 
-function generateBreedingWarnings(mutIDs) {
+function generateBreedingWarnings(visualIDs, splitIDs = []) {
     const warnings = [];
     const eumelaninIDs = ["nsl_ino", "dec", "pastel", "bronze_fallow", "dilute", "pale_fallow", "dun_fallow", "rec_pied", "faded", "marbled", "dm_jade", "sl_ino", "pallid", "pale", "cinnamon", "dom_pied", "dom_reduced", "dom_edged", "euwing", "grey_factor", "sl_dom_greywing"];
     const psittacineIDs = ["aqua", "blue1", "blue2", "rose_blue", "turquoise", "teal", "orange_face", "pale_headed", "sapphire", "sapphire_blue1", "sapphire_blue2", "aqua_sapphire"];
 
-    let euCount = mutIDs.filter(id => eumelaninIDs.includes(id) || mutationDB.find(m => m.id === id)?.alleles.some(a => eumelaninIDs.includes(a))).length;
-    if (euCount >= 2) warnings.push("This combines multiple eumelanin mutations. Such combinations reduce dark pigment and are generally considered visually unrecognizable/not accepted by breed standards.");
+    // Does trait `id` belong to `categoryIDs` -- either directly, or via one of
+    // the alleles that make up a named compound (e.g. "aqua_blue1" counts
+    // because its alleles ["aqua","blue1"] are both psittacine)?
+    function inCategory(id, categoryIDs) {
+        if (categoryIDs.includes(id)) return true;
+        let m = mutationDB.find(x => x.id === id);
+        return m && m.alleles && m.alleles.some(a => categoryIDs.includes(a));
+    }
 
-    let psitCount = mutIDs.filter(id => psittacineIDs.includes(id) || mutationDB.find(m => m.id === id)?.alleles.some(a => psittacineIDs.includes(a))).length;
-    if (psitCount >= 2) warnings.push("This combines multiple psittacine mutations, which is generally avoided as the visual result is not clearly recognizable.");
+    // Rules 1-3 evaluate ONLY what the bird visually expresses (visualIDs).
+    // A gene that is merely split (hidden, single recessive copy) never
+    // reaches visualIDs, so it can never trip these three checks.
 
-    if (mutIDs.some(id => mutationDB.find(m => m.id === id)?.isCompound)) {
+    // 1. Multiple Eumelanin Check
+    let euCount = visualIDs.filter(id => inCategory(id, eumelaninIDs)).length;
+    if (euCount >= 2) {
+        warnings.push("This combines multiple eumelanin mutations. Such combinations reduce dark pigment and are generally considered visually unrecognizable/not accepted by breed standards.");
+    }
+
+    // 2. Multiple Psittacine Check (ignored entirely if every involved trait's own locus is "bl")
+    let psitMutations = visualIDs.filter(id => inCategory(id, psittacineIDs));
+    let allAreBl = psitMutations.every(id => {
+        let m = mutationDB.find(x => x.id === id);
+        return m && m.locus === "bl";
+    });
+
+    // 2a/2b. Mask-pigment checks. Unlike the visual-only rule above, these two also count a
+    // mutation that is merely SPLIT (carried but not visually expressed) toward the combination,
+    // since a bird split for a bl-locus or mask mutation can still pass it on and produce the
+    // same unrecognizable-mask outcome in offspring. This only ever adds an advisory note --
+    // it never blocks selecting mutations or generating offspring.
+    const maskIDs = ["orange_face", "pale_headed"];
+    let fullPsitIDs = [...visualIDs, ...splitIDs].filter(id => inCategory(id, psittacineIDs));
+    let maskMutations = fullPsitIDs.filter(id => inCategory(id, maskIDs));
+    let nonMaskPsitCount = fullPsitIDs.length - maskMutations.length;
+
+    // 2a. Mask mutation (Orange Face / Pale Headed) combined with a bl-locus (blue-series) mutation:
+    // the blue mutation removes the psittacofulvin pigment the mask mutation acts on, so the mask
+    // coloring can no longer be visually confirmed.
+    if (maskMutations.length >= 1 && nonMaskPsitCount >= 1) {
+        warnings.push("This combines a mask-pigment mutation (Orange Face / Pale Headed) with a blue-series (bl-locus) mutation, either visually or as a split carrier. The blue mutation strips out the psittacofulvin pigment the mask mutation acts on, so the mask coloring is not visually recognizable in this combination.");
+    }
+
+    // 2b. Two mask mutations present on the same bird (visual or split): they act on the same
+    // facial pigment, so neither trait's expression can be reliably told apart.
+    if (maskMutations.length >= 2) {
+        warnings.push("This combines more than one mask-pigment mutation (Orange Face and Pale Headed) on the same bird, either visually or as a split carrier. Stacking these makes the mask coloring visually unrecognizable, so neither trait can be reliably confirmed.");
+    }
+
+    // 2c. Fallback for any other multi-psittacine combination not covered by the mask-specific
+    // rules above (e.g. any future non-bl, non-mask additions to this category). This one stays
+    // visual-only, matching the original behavior for traits outside the mask/bl scope.
+    if (maskMutations.length === 0 && psitMutations.length >= 2 && !allAreBl) {
+        warnings.push("This combines multiple psittacine mutations, which is generally avoided as the visual result is not clearly recognizable.");
+    }
+
+    // 3. Allelic Compound Check (ignores bl-locus compounds like Parblue/Sapphire)
+    if (visualIDs.some(id => {
+        const m = mutationDB.find(x => x.id === id);
+        return m && m.isCompound && m.locus !== "bl";
+    })) {
         warnings.push("These mutations are alleles of the same gene. Combining them typically produces an intermediate, non-standard result rather than a distinct new mutation which are not accepted at exhibitions.");
+    }
+
+    // 4. SL Greywing Linkage Check -- the ONLY rule that must evaluate the
+    // entire genotype, so it looks at visual traits AND hidden splits together.
+    let fullGenotypeIDs = [...visualIDs, ...splitIDs];
+    let hasGreywing = fullGenotypeIDs.includes("sl_dom_greywing");
+    let hasOtherSL = fullGenotypeIDs.some(id => {
+        const m = mutationDB.find(x => x.id === id);
+        return m && m.type.includes("SL") && id !== "sl_dom_greywing";
+    });
+
+    if (hasGreywing && hasOtherSL) {
+        warnings.push("Linkage rates between SL Greywing and other sex-linked mutations are currently unknown. The calculator assumes independent inheritance.");
     }
 
     return warnings;
@@ -1258,9 +1363,9 @@ const customDictionary = [
     { keys: ["aqua homo", "aqua homozygote", "aqua homozygotic"], res: () => [{id:"aqua", val:2}] },
     { keys: ["b1b2", "parblue"], sp: "white_eye_ring", res: () => [{id:"blue1_blue2", val:2}] },
     { keys: ["parblue"], sp: "roseicollis", res: () => [{id:"turquoise", val:2}], suggest: () => [{id:"aqua", val:2}] },
-    { keys: ["b1", "blue"], sp: "white_eye_ring", res: () => [{id:"blue1", val:2}] },
+    { keys: ["b1", "bl1", "blue", "white collared", "white collar", "white-collared", "white-collar", "whitecollar", "whitecollared"], sp: "white_eye_ring", res: () => [{id:"blue1", val:2}] },
     { keys: ["blue"], sp: "roseicollis", res: () => [{id:"rose_blue", val:2}] },
-    { keys: ["b2"], res: () => [{id:"blue2", val:2}] },
+    { keys: ["b2", "bl2", "b2 white collared", "b2 white collar", "b2 white-collared", "b2 white-collar", "b2 whitecollar", "b2 whitecollared", "bl2 white collared", "bl2 white collar", "bl2 white-collared", "bl2 white-collar", "bl2whitecollar", "bl2whitecollared", "blue2 white collared", " blue2 white collar", " blue2 white-collared", " blue2 white-collar", " blue2whitecollar", " blue2whitecollared", "white collared b2", "white collar b2", "white-collared b2", "white-collar b2", "whitecollar b2", "whitecollared b2", "white collared bl2", "white collar bl2", "white-collared bl2", "white-collar bl2", "whitecollar bl2", "whitecollared bl2", "white collared blue2", "white collar blue2", "white-collared blue2", "white-collar blue2", "whitecollar blue2", "whitecollared blue2"], res: () => [{id:"blue2", val:2}] },
     { keys: ["aqua blue"], sp: "white_eye_ring", res: () => [{id:"aqua_blue1", val:2}] },
     { keys: ["sapphire blue", "orange fronted"], res: () => [{id:"sapphire_blue1", val:2}] },
     { keys: ["sapphire"], res: () => [{id:"sapphire", val:2}] },
@@ -1286,16 +1391,56 @@ const customDictionary = [
     { keys: ["split pied"], res: () => [{id:"rec_pied", val:1}] }, 
     { keys: ["pied"], res: (sp, isSplit) => isSplit ? [{id:"rec_pied", val:1}] : [{id:"dom_pied", val:2}] },
     { keys: ["faded"], res: () => [{id:"faded", val:2}] },
-    { keys: ["dominant yellow"], res: () => [{id:"dom_reduced", val:1}] }, 
+    { keys: ["dominant yellow", "reduced"], res: () => [{id:"dom_reduced", val:1}] }, 
     { keys: ["greywing"], res: () => [{id:"sl_dom_greywing", val:1}] }, 
-    { keys: ["australian yellow face", "yellow face", "yellowface", "yf"], res: () => [{id:"orange_face", val:2}] },
+    { keys: ["australian yellow face", "yellow face", "yellowface", "yf", "orangeface"], res: () => [{id:"orange_face", val:2}] },
     { keys: ["australian cinnamon", "isabel"], res: () => [{id:"pallid", val:2}] },
     { keys: ["american cinnamon", "cinnamon"], res: () => [{id:"cinnamon", val:2}] },
     { keys: ["lacewing"], sp: "roseicollis", res: () => [{id:"cinnamon", val:2}, {id:"sl_ino", val:2}] }, 
     { keys: ["lacewing"], sp: "white_eye_ring", res: () => [{id:"nsl_ino", val:2}, {id:"cinnamon", val:2}] },
     { keys: ["pallidino"], res: () => [{id:"pallid_ino", val:2}] },
     { keys: ["pastelino"], res: () => [{id:"pastel_ino", val:2}] },
-    { keys: ["green", "wildtype"], res: () => [] } 
+    { keys: ["green", "wildtype"], res: () => [] },
+    { keys: ["yellow collar", "yellow collared", "yellow-collar", "yellow-collared", "yellowcollar", "yellowcollared"], sp: "white_eye_ring", res: () => [] }, 
+    // --- Blue2 ---
+    { keys: ["blue2 mauve", "b2 mauve", "bl2 mauve", "mauve blue2", "mauve b2", "mauve bl2"], res: () => [{id:"dark_factor", val:2}, {id:"blue2", val:2}] },
+    { keys: ["blue2 cobalt", "b2 cobalt", "bl2 cobalt", "cobalt blue2", "cobalt b2", "cobalt bl2"], res: () => [{id:"dark_factor", val:1}, {id:"blue2", val:2}] },
+
+    // --- Aqua & Turquoise ---
+    { keys: ["aqua mauve", "mauve aqua"], res: () => [{id:"dark_factor", val:2}, {id:"aqua", val:2}] },
+    { keys: ["aqua cobalt", "cobalt aqua"], res: () => [{id:"dark_factor", val:1}, {id:"aqua", val:2}] },
+    { keys: ["turquoise mauve", "mauve turquoise"], sp: "roseicollis", res: () => [{id:"dark_factor", val:2}, {id:"turquoise", val:2}] },
+    { keys: ["turquoise cobalt", "cobalt turquoise"], sp: "roseicollis", res: () => [{id:"dark_factor", val:1}, {id:"turquoise", val:2}] },
+    // --- Blue1Blue2 (Parblue) ---
+    { keys: ["b1b2 mauve", "parblue mauve", "mauve b1b2", "mauve parblue"], sp: "white_eye_ring", res: () => [{id:"dark_factor", val:2}, {id:"blue1_blue2", val:2}] },
+    { keys: ["b1b2 cobalt", "parblue cobalt", "cobalt b1b2", "cobalt parblue"], sp: "white_eye_ring", res: () => [{id:"dark_factor", val:1}, {id:"blue1_blue2", val:2}] },
+
+    // --- AquaBlue1 & AquaBlue2 ---
+    { keys: ["aquablue1 mauve", "mauve aquablue1", "aqua blue mauve", "mauve aqua blue"], sp: "white_eye_ring", res: () => [{id:"dark_factor", val:2}, {id:"aqua_blue1", val:2}] },
+    { keys: ["aquablue1 cobalt", "cobalt aquablue1", "aqua blue cobalt", "cobalt aqua blue"], sp: "white_eye_ring", res: () => [{id:"dark_factor", val:1}, {id:"aqua_blue1", val:2}] },
+    
+    { keys: ["aquablue2 mauve", "mauve aquablue2", "aqua bl2 mauve", "mauve aqua bl2"], sp: "white_eye_ring", res: () => [{id:"dark_factor", val:2}, {id:"aqua_blue2", val:2}] },
+    { keys: ["aquablue2 cobalt", "cobalt aquablue2", "aqua bl2 cobalt", "cobalt aqua bl2"], sp: "white_eye_ring", res: () => [{id:"dark_factor", val:1}, {id:"aqua_blue2", val:2}] },
+
+    // --- AquaTurquoise ---
+    { keys: ["aquaturquoise mauve", "mauve aquaturquoise"], sp: "roseicollis", res: () => [{id:"dark_factor", val:2}, {id:"aqua_turquoise", val:2}] },
+    { keys: ["aquaturquoise cobalt", "cobalt aquaturquoise"], sp: "roseicollis", res: () => [{id:"dark_factor", val:1}, {id:"aqua_turquoise", val:2}] },
+    // --- Sapphire Group ---
+    { keys: ["sapphire mauve", "mauve sapphire"], sp: "white_eye_ring", res: () => [{id:"dark_factor", val:2}, {id:"sapphire", val:2}] },
+    { keys: ["sapphire cobalt", "cobalt sapphire"], sp: "white_eye_ring", res: () => [{id:"dark_factor", val:1}, {id:"sapphire", val:2}] },
+    
+    { keys: ["sapphireblue1 mauve", "mauve sapphireblue1", "sapphire blue mauve", "mauve sapphire blue"], sp: "white_eye_ring", res: () => [{id:"dark_factor", val:2}, {id:"sapphire_blue1", val:2}] },
+    { keys: ["sapphireblue1 cobalt", "cobalt sapphireblue1", "sapphire blue cobalt", "cobalt sapphire blue"], sp: "white_eye_ring", res: () => [{id:"dark_factor", val:1}, {id:"sapphire_blue1", val:2}] },
+
+    { keys: ["sapphireblue2 mauve", "mauve sapphireblue2", "sapphire bl2 mauve", "mauve sapphire bl2"], sp: "white_eye_ring", res: () => [{id:"dark_factor", val:2}, {id:"sapphire_blue2", val:2}] },
+    { keys: ["sapphireblue2 cobalt", "cobalt sapphireblue2", "sapphire bl2 cobalt", "cobalt sapphire bl2"], sp: "white_eye_ring", res: () => [{id:"dark_factor", val:1}, {id:"sapphire_blue2", val:2}] },
+
+    { keys: ["aquasapphire mauve", "mauve aquasapphire"], sp: "white_eye_ring", res: () => [{id:"dark_factor", val:2}, {id:"aqua_sapphire", val:2}] },
+    { keys: ["aquasapphire cobalt", "cobalt aquasapphire"], sp: "white_eye_ring", res: () => [{id:"dark_factor", val:1}, {id:"aqua_sapphire", val:2}] },
+    // --- Translate Turquoise to Parblue for White Eye-Rings ---
+    { keys: ["turquoise"], sp: "white_eye_ring", res: () => [{id:"blue1_blue2", val:2}] },
+    { keys: ["turquoise mauve", "mauve turquoise"], sp: "white_eye_ring", res: () => [{id:"dark_factor", val:2}, {id:"blue1_blue2", val:2}] },
+    { keys: ["turquoise cobalt", "cobalt turquoise"], sp: "white_eye_ring", res: () => [{id:"dark_factor", val:1}, {id:"blue1_blue2", val:2}] },
 ];
 
 function buildDynamicDictionary(species) {
@@ -1449,7 +1594,7 @@ window.applySmartFix = function(sex, compoundId) {
 };
 
 function processSearchQuery(query, species, sex) {
-    if (!query) return { visuals: [], splits: [], suggested: [], leftover: "", warningText: "" };
+    if (!query) return { visuals: [], splits: [], suggested: [], leftover: "", warningText: "", ownBreedingWarnings: [] };
 
     let delimiter = null;
     if (query.includes('/')) delimiter = '/';
@@ -1625,7 +1770,7 @@ function processSearchQuery(query, species, sex) {
     ];
     
     if (species === "white_eye_ring") {
-        ignorePhrases.push("fischeri", "fischer", "fisher", "fisheri", "black-masked", "black masked", "black-mask", "black mask", "yellow-collared", "yellow collared", "yellow collar", "yellow-collar", "personatus", "personata", "blackmask", "blackmasked", "yellowcollared", "yellowcollar", "lilianae", "nyasa", "black-cheeked", "black cheeked", "black cheek", "black-cheek", "nigrigenis", "blackcheeked", "blackcheek");
+        ignorePhrases.push("fischeri", "fischer", "fisher", "fisheri", "fishri", "fischri", "black-masked", "black masked", "black-mask", "black mask", "yellow-collared", "yellow collared", "yellow collar", "yellow-collar", "personatus", "personata", "blackmask", "blackmasked", "yellowcollared", "yellowcollar", "lilianae", "nyasa", "black-cheeked", "black cheeked", "black cheek", "black-cheek", "nigrigenis", "blackcheeked", "blackcheek");
     } else if (species === "roseicollis") {
         ignorePhrases.push("roseicollis", "rosy-faced", "rosy faced", "rosyfaced", "rosy face", "rosy-face", "rosy", "peach-faced", "peach faced", "peach face", "peach-face", "peachface", "rosyface", "peachfaced");
     } else if (species === "taranta") {
@@ -1643,6 +1788,22 @@ function processSearchQuery(query, species, sex) {
     let remainingWords = leftoverRaw.split(/[\s]+/).filter(w => w);
     let leftover = remainingWords.join(' ').trim();
 
+    // --- Unified Quick Add Warnings for Parents ---
+    // Delegates to the single canonical rule-checker (generateBreedingWarnings)
+    // instead of a second hand-written copy of the same 4 rules, so the
+    // Search Box can never drift out of sync with the Live Preview / Final
+    // Results warnings again.
+    let visualIDs = finalVisuals.map(t => t.id);
+    let splitOnlyIDs = finalSplits.map(t => t.id);
+
+    let ownBreedingWarnings = generateBreedingWarnings(visualIDs, splitOnlyIDs);
+    ownBreedingWarnings.forEach(msg => {
+        splitWarnings.push(`⚠️ <strong>Notice:</strong> ${msg}`);
+    });
+    // ---------------------------------------------------
+    
+
+
     let warningText = splitWarnings.join("<br><br>");
     if (rejectedNames.length > 0) {
         if (warningText) warningText += "<br><br>";
@@ -1653,7 +1814,7 @@ function processSearchQuery(query, species, sex) {
         warningText += `Unrecognized term detected: '${leftover}'. Please check your spelling.`;
     }
 
-    return { visuals: finalVisuals, splits: finalSplits, suggested: suggested, leftover: leftover, warningText: warningText.trim() };
+    return { visuals: finalVisuals, splits: finalSplits, suggested: suggested, leftover: leftover, warningText: warningText.trim(), ownBreedingWarnings: ownBreedingWarnings };
 }
 
 function applyTraitToUI(trait, containerId, sex) {
@@ -1789,6 +1950,64 @@ function buildSuggestionButton(t, containerId, sex, autoSelectMode, isAlternativ
     return btn;
 }
 
+function getPairingWarnings() {
+    const speciesVal = document.getElementById("species").value;
+    const missingSire = findMissingSelections("sire-categories", "male");
+    const missingDam = findMissingSelections("dam-categories", "female");
+
+    // Skip if the form is incomplete or missing species
+    if (speciesVal === "none" || missingSire.length || missingDam.length) return [];
+
+    try {
+        const parents = computeParentsPhenotypes();
+        const { sire, dam, hasSL } = parents;
+
+        // SAFETY CHECK: Abort if phenotype translation failed due to incomplete UI state
+        if (!sire || !dam || !sire.autoGenes || !dam.autoGenes) return [];
+
+        // Generate gametes silently
+        const sireZGametes = generateZGametesMale(sire.z1, sire.z2);
+        const sireAutoGametes = generateAutosomalGametes(sire.autoGenes, sire.dfPhase);
+        const damZGametes = [{ chr: 'Z', genes: dam.z1, prob: 0.5 }, { chr: 'W', genes: [], prob: 0.5 }];
+        const damAutoGametes = generateAutosomalGametes(dam.autoGenes, dam.dfPhase);
+
+        let uniqueWarnings = new Set();
+
+        sireZGametes.forEach(sz => {
+            damZGametes.forEach(dz => {
+                const sex = dz.chr === "W" ? "female" : "male";
+                sireAutoGametes.forEach(sa => {
+                    damAutoGametes.forEach(da => {
+                        const auto = {};
+                        [...Object.keys(sa.genes), ...Object.keys(da.genes)].forEach(l => {
+                            auto[l] = [sa.genes[l] || "+", da.genes[l] || "+"];
+                        });
+
+                        let df_c1 = sa.genes['dark_factor'] || "+", bl_c1 = sa.genes['bl'] || "+";
+                        let df_c2 = da.genes['dark_factor'] || "+", bl_c2 = da.genes['bl'] || "+";
+                        let indPhase = null;
+                        let isDfHet = (df_c1 !== "+" || df_c2 !== "+") && !(df_c1 !== "+" && df_c2 !== "+");
+                        let isBlSplit = ((bl_c1 !== "+" ? 1 : 0) + (bl_c2 !== "+" ? 1 : 0)) === 1;
+                        if (isDfHet && isBlSplit) indPhase = df_c1 !== "+" ? (bl_c1 !== "+" ? "type 2" : "type 1") : (bl_c2 !== "+" ? "type 2" : "type 1");
+
+                        const blDfBlock = buildLinkedBlDfSymbol(bl_c1, df_c1, bl_c2, df_c2);
+                        const pheno = translatePhenotype(sz.genes, dz.genes, auto, sex, indPhase, hasSL, true, blDfBlock);
+
+                        // Extract warnings for this specific offspring outcome
+                        let offspringWarnings = generateBreedingWarnings(pheno.expressedIDs, pheno.splitIDs);
+                        offspringWarnings.forEach(w => uniqueWarnings.add(w));
+                    });
+                });
+            });
+        });
+
+        return Array.from(uniqueWarnings);
+    } catch (e) {
+        // Silently catch intermediate UI states
+        return [];
+    }
+}
+
 function handleSearchInput(sex) {
     if (blockSearchInputEvent) return;
 
@@ -1805,13 +2024,6 @@ function handleSearchInput(sex) {
     let query = inputEl.value;
     let parsed = processSearchQuery(query, species, sex);
     let allParsedTraits = [...parsed.visuals, ...parsed.splits];
-
-    if (parsed.warningText) {
-        warningEl.innerHTML = parsed.warningText; // Supports Smart Fix HTML Link rendering
-        warningEl.style.display = 'block';
-    } else {
-        warningEl.style.display = 'none';
-    }
 
     suggestionsEl.innerHTML = '';
 
@@ -1852,9 +2064,96 @@ function handleSearchInput(sex) {
             if (btn) suggestionsEl.appendChild(btn);
         });
     }
+
+    // NEW: Render Warnings at the end, injecting cross-pairing warnings
+    let finalWarningText = parsed.warningText || "";
+
+    // Shortened mutation notes (e.g. Sapphire, DM Jade, Dominant Reduced, "needs further
+    // investigation" traits) for whatever is currently parsed in this bird's search box.
+    let noteLines = [];
+    let seenNoteIds = new Set();
+    allParsedTraits.forEach(t => {
+        if (seenNoteIds.has(t.id)) return;
+        let dbMut = mutationDB.find(m => m.id === t.id);
+        if (dbMut && dbMut.shortNote) {
+            seenNoteIds.add(t.id);
+            noteLines.push(`${dbMut.name}: ${dbMut.shortNote}`);
+        }
+    });
+    if (noteLines.length > 0) {
+        if (finalWarningText) finalWarningText += "<br><br>";
+        finalWarningText += "📝 <strong>Notes:</strong><br>" + noteLines.map(n => `• ${n}`).join("<br>");
+    }
+
+    // Only show a "Pairing Warning" if it's telling the user something new -- if this same
+    // bird's own selections already trigger the identical message (e.g. it already carries both
+    // conflicting mutations itself), showing it again under "Offspring Risk" is redundant.
+    let ownWarningSet = new Set(parsed.ownBreedingWarnings || []);
+    let pairingWarnings = getPairingWarnings().filter(w => !ownWarningSet.has(w));
+    if (pairingWarnings.length > 0) {
+        if (finalWarningText) finalWarningText += "<br><br>";
+        finalWarningText += "🧬 <strong>Pairing Warning (Offspring Risk):</strong><br>" + pairingWarnings.map(w => `• ${w}`).join("<br><br>");
+    }
+
+    if (finalWarningText) {
+        warningEl.innerHTML = finalWarningText;
+        warningEl.style.display = 'block';
+    } else {
+        warningEl.style.display = 'none';
+    }
 }
 
 document.getElementById('sire-search-input').addEventListener('input', () => handleSearchInput('male'));
 document.getElementById('sire-auto-select').addEventListener('change', () => handleSearchInput('male'));
 document.getElementById('dam-search-input').addEventListener('input', () => handleSearchInput('female'));
 document.getElementById('dam-auto-select').addEventListener('change', () => handleSearchInput('female'));
+// ==========================================
+// MOBILE UNIFIED SEARCH REPARENTING
+// ==========================================
+function initMobileUnifiedSearch() {
+    const mql = window.matchMedia("(max-width: 600px)");
+    const hubBody = document.getElementById("unified-hub-body");
+    
+    const sireSearch = document.getElementById("sire-search-container");
+    const damSearch = document.getElementById("dam-search-container");
+    const sireCategories = document.getElementById("sire-categories");
+    const damCategories = document.getElementById("dam-categories");
+
+    // Target the labels to inject context when they move into the unified hub
+    const sireLabel = sireSearch ? sireSearch.querySelector('.search-header label strong') : null;
+    const damLabel = damSearch ? damSearch.querySelector('.search-header label strong') : null;
+
+    function handleUnifiedLayoutChange(e) {
+        if (!sireSearch || !damSearch) return;
+
+        if (e.matches) {
+            // Mobile: Move containers into the unified hub
+            if (hubBody) {
+                hubBody.appendChild(sireSearch);
+                hubBody.appendChild(damSearch);
+            }
+            // Update the internal labels (Auto Select toggles naturally remain right-aligned)
+            if (sireLabel) sireLabel.innerHTML = "<span style='color:var(--sire); font-size:1.1em;'>1.0 Sire (Male)</span>";
+            if (damLabel) damLabel.innerHTML = "<span style='color:var(--dam); font-size:1.1em;'>0.1 Dam (Female)</span>";
+        } else {
+            // Desktop: Move back to their original columns above the mutation categories
+            if (sireCategories && sireCategories.parentNode) {
+                sireCategories.parentNode.insertBefore(sireSearch, sireCategories);
+            }
+            if (damCategories && damCategories.parentNode) {
+                damCategories.parentNode.insertBefore(damSearch, damCategories);
+            }
+            // Restore default text
+            if (sireLabel) sireLabel.innerHTML = "Quick Add Mutation";
+            if (damLabel) damLabel.innerHTML = "Quick Add Mutation";
+        }
+    }
+
+    // Bind listener for live rotation/resizing
+    mql.addEventListener("change", handleUnifiedLayoutChange);
+    
+    // Execute immediately on page load
+    handleUnifiedLayoutChange(mql); 
+}
+
+document.addEventListener("DOMContentLoaded", initMobileUnifiedSearch);
