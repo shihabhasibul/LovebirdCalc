@@ -464,10 +464,21 @@ button#print-btn:hover {
 @media print {
   body { background: none; color: #000; padding: 0; }
   
-  /* Hide UI elements that shouldn't be printed */
-  .masthead, .header-controls, #symbol-toggle-wrap, .container, 
+  /* Hide UI elements that shouldn't be printed (removed .masthead so the header prints) */
+  .header-controls, #symbol-toggle-wrap, .container, 
   #controls-container, #shared-banner, #share-container, .mobile-preview-bar { 
     display: none !important; 
+  }
+  
+  /* Force the branding colors and logo to print accurately */
+  .masthead {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+  
+  /* Hide the dark/light mode button on paper */
+  .theme-toggle {
+    display: none !important;
   }
   
   /* Reset the results container to act like standard page text */
